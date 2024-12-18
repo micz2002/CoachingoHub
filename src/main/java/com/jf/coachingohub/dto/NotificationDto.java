@@ -1,28 +1,22 @@
-package com.jf.coachingohub.model;
+package com.jf.coachingohub.dto;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "notifications")
-public class Notification {
+public class NotificationDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @Column(nullable = false)
+    private Long userId;
     private String message;
-
-    @Column(name = "sent_at", nullable = false)
     private LocalDateTime sentAt;
 
-    // Getters and setters
+    public NotificationDto(Long id, Long userId, String message, LocalDateTime sentAt) {
+        this.id = id;
+        this.userId = userId;
+        this.message = message;
+        this.sentAt = sentAt;
+    }
 
+    // Gettery i Settery
     public Long getId() {
         return id;
     }
@@ -31,12 +25,12 @@ public class Notification {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getMessage() {

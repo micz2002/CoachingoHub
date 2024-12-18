@@ -1,27 +1,18 @@
-package com.jf.coachingohub.model;
+package com.jf.coachingohub.dto;
 
-import jakarta.persistence.*;
+public class TrainerDto {
 
-@Entity
-@Table(name = "trainers")
-public class Trainer {
-
-    @Id
     private Long id;
-
-    @Column
     private String specialization;
-
-    @Column
     private Integer experience;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private User user;
+    public TrainerDto(Long id, String specialization, Integer experience) {
+        this.id = id;
+        this.specialization = specialization;
+        this.experience = experience;
+    }
 
-    // Getters and setters
-
+    // Gettery i Settery
     public Long getId() {
         return id;
     }
@@ -44,13 +35,5 @@ public class Trainer {
 
     public void setExperience(Integer experience) {
         this.experience = experience;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
