@@ -1,5 +1,6 @@
 package com.jf.coachingohub.service;
 
+import com.jf.coachingohub.dto.NotificationDto;
 import com.jf.coachingohub.model.Notification;
 import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.repository.NotificationRepository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NotificationService {
@@ -22,7 +24,20 @@ public class NotificationService {
         return notificationRepository.save(notification);
     }
 
-    public List<Notification> findByUserId(Long userId) {
-        return notificationRepository.findByUserId(userId);
+
+    private NotificationDto convertToDto(Notification notification) {
+        return new NotificationDto(
+                notification.getId(),
+                notification.getUser().getId(),
+                notification.getMessage(),
+                notification.getSentAt()
+        );
+    }
+
+    public List<NotificationDto> findByUserId(Long userId) {
+        return notificationRepository.findByUserId(userId)
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 }

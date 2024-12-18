@@ -1,5 +1,6 @@
 package com.jf.coachingohub.controller;
 
+import com.jf.coachingohub.dto.ClientDto;
 import com.jf.coachingohub.model.Client;
 import com.jf.coachingohub.service.ClientService;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ClientController {
     }
 
     @GetMapping("/trainer/{trainerId}")
-    public ResponseEntity<List<Client>> getClientsByTrainer(@PathVariable Long trainerId) {
+    public ResponseEntity<List<ClientDto>> getClientsByTrainer(@PathVariable Long trainerId) {
         return ResponseEntity.ok(clientService.findByTrainerId(trainerId));
     }
 

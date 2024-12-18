@@ -1,5 +1,6 @@
 package com.jf.coachingohub.controller;
 
+import com.jf.coachingohub.dto.WorkoutDto;
 import com.jf.coachingohub.model.Workout;
 import com.jf.coachingohub.service.WorkoutService;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,12 @@ public class WorkoutController {
     }
 
     @GetMapping("/client/{clientId}")
-    public ResponseEntity<List<Workout>> getWorkoutsByClient(@PathVariable Long clientId) {
+    public ResponseEntity<List<WorkoutDto>> getWorkoutsByClient(@PathVariable Long clientId) {
         return ResponseEntity.ok(workoutService.findByClientId(clientId));
     }
 
     @GetMapping("/trainer/{trainerId}")
-    public ResponseEntity<List<Workout>> getWorkoutsByTrainer(@PathVariable Long trainerId) {
+    public ResponseEntity<List<WorkoutDto>> getWorkoutsByTrainer(@PathVariable Long trainerId) {
         return ResponseEntity.ok(workoutService.findByTrainerId(trainerId));
     }
 

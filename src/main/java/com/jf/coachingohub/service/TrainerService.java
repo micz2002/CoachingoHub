@@ -1,5 +1,6 @@
 package com.jf.coachingohub.service;
 
+import com.jf.coachingohub.dto.TrainerDto;
 import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.repository.TrainerRepository;
@@ -23,7 +24,8 @@ public class TrainerService {
         return trainerRepository.save(trainer);
     }
 
-    public Trainer findById(Long id) {
-        return trainerRepository.findById(id).orElseThrow(() -> new RuntimeException("Trainer not found"));
+    public Optional<TrainerDto> findTrainerById(Long id) {
+        return trainerRepository.findById(id)
+                .map(trainer -> new TrainerDto(trainer.getId(), trainer.getSpecialization(), trainer.getExperience()));
     }
 }

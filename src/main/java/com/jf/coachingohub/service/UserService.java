@@ -1,5 +1,6 @@
 package com.jf.coachingohub.service;
 
+import com.jf.coachingohub.dto.UserDto;
 import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public Optional<UserDto> findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(user -> new UserDto(user.getId(), user.getUsername(), user.getEmail()));
     }
 
     public Optional<User> findByEmail(String email) {
