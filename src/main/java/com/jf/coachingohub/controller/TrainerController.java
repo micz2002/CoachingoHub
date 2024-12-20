@@ -1,9 +1,13 @@
 package com.jf.coachingohub.controller;
 
+import com.jf.coachingohub.dto.TrainerDto;
 import com.jf.coachingohub.model.Trainer;
+import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.service.TrainerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/trainers")
@@ -16,12 +20,17 @@ public class TrainerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Trainer> getTrainerById(@PathVariable Long id) {
-        return ResponseEntity.ok(trainerService.findById(id));
+    public ResponseEntity<TrainerDto> getTrainerById(@PathVariable Long id) {
+        return trainerService.findTrainerById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Trainer> createTrainer(@RequestBody Trainer trainer) {
-        return ResponseEntity.ok(trainerService.save(trainer));
+        Optional<Trainer> createdTrainer = Optional.ofNullable(trainerService.save(trainer));
+        return createdTrainer
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.badRequest().build());
     }
 }

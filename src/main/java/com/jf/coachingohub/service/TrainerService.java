@@ -24,8 +24,15 @@ public class TrainerService {
         return trainerRepository.save(trainer);
     }
 
+    private TrainerDto convertToDto(Trainer trainer) {
+        return new TrainerDto(
+                trainer.getId(),
+                trainer.getSpecialization(),
+                trainer.getExperience()
+        );
+    }
     public Optional<TrainerDto> findTrainerById(Long id) {
         return trainerRepository.findById(id)
-                .map(trainer -> new TrainerDto(trainer.getId(), trainer.getSpecialization(), trainer.getExperience()));
+                .map(this::convertToDto);
     }
 }

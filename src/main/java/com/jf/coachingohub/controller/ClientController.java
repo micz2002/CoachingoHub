@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -20,12 +21,19 @@ public class ClientController {
 
     @GetMapping("/trainer/{trainerId}")
     public ResponseEntity<List<ClientDto>> getClientsByTrainer(@PathVariable Long trainerId) {
-        return ResponseEntity.ok(clientService.findByTrainerId(trainerId));
+        List<ClientDto> clients = clientService.findByTrainerId(trainerId);
+        if (clients.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(clients);
     }
 
     @PostMapping
     public ResponseEntity<Client> createClient(@RequestBody Client client) {
-        return ResponseEntity.ok(clientService.save(client));
+        Optional<Client> createdClient = Optional.ofNullable(clientService.save(client));
+        return createdClient
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.badRequest().build());
     }
 }
 

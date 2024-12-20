@@ -15,16 +15,22 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<UserDto> findByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .map(user -> new UserDto(user.getId(), user.getUsername(), user.getEmail()));
+    private UserDto convertToDto(User user) {
+        return new UserDto(user.getId(), user.getUsername(), user.getEmail(), user.getFirstName(), user.getLastName());
     }
 
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public Optional<UserDto> findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(this::convertToDto);
+    }
+
+    public Optional<UserDto> findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(this::convertToDto);
     }
 
     public User save(User user) {
         return userRepository.save(user);
     }
 }
+//TODO user i trainer

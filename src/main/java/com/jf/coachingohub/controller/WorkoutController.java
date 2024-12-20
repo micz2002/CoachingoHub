@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/workouts")
@@ -20,17 +21,28 @@ public class WorkoutController {
 
     @GetMapping("/client/{clientId}")
     public ResponseEntity<List<WorkoutDto>> getWorkoutsByClient(@PathVariable Long clientId) {
-        return ResponseEntity.ok(workoutService.findByClientId(clientId));
+        List<WorkoutDto> workouts = workoutService.findByClientId(clientId);
+        if (workouts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(workouts);
     }
 
     @GetMapping("/trainer/{trainerId}")
     public ResponseEntity<List<WorkoutDto>> getWorkoutsByTrainer(@PathVariable Long trainerId) {
-        return ResponseEntity.ok(workoutService.findByTrainerId(trainerId));
+        List<WorkoutDto> workouts = workoutService.findByTrainerId(trainerId);
+        if (workouts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(workouts);
     }
 
     @PostMapping
     public ResponseEntity<Workout> createWorkout(@RequestBody Workout workout) {
-        return ResponseEntity.ok(workoutService.save(workout));
+        Optional<Workout> createdWorkout = Optional.ofNullable(workoutService.save(workout));
+        return createdWorkout
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.badRequest().build());
     }
 }
 
