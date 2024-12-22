@@ -9,10 +9,10 @@ public class Trainer {
     @Id
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String specialization;
 
-    @Column
+    @Column(nullable = false)
     private Integer experience;
 
     @OneToOne

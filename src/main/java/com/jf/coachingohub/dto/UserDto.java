@@ -9,14 +9,18 @@ public class UserDto {
     private String email;
     private String firstName;
     private String lastName;
+    private String role;
 
-    public UserDto(Long id, String username, String email, String firstName, String lastName) {
+    public UserDto(Long id, String username, String email, String firstName, String lastName, String role) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.role = role;
     }
+
+
 
     // Gettery i Settery
     public Long getId() {
@@ -57,5 +61,13 @@ public class UserDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
