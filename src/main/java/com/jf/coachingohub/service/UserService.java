@@ -6,14 +6,19 @@ import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.repository.TrainerRepository;
 import com.jf.coachingohub.repository.UserRepository;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final TrainerRepository trainerRepository;
@@ -24,6 +29,7 @@ public class UserService {
         this.trainerRepository = trainerRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
     private UserDto convertToDto(User user) {
         return new UserDto(user.getId(),
                 user.getUsername(),
@@ -33,12 +39,12 @@ public class UserService {
                 user.getRole().name());
     }
 
-    public Optional<UserDto> findByUsername(String username) {
+    public Optional<UserDto> findDtoByUsername(String username) {
         return userRepository.findByUsername(username)
                 .map(this::convertToDto);
     }
 
-    public Optional<UserDto> findByEmail(String email) {
+    public Optional<UserDto> findDtoByEmail(String email) {
         return userRepository.findByEmail(email)
                 .map(this::convertToDto);
     }
@@ -68,5 +74,17 @@ public class UserService {
 
         return savedUser;
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return org.springframework.security.core.userdetails.User
+                .withUsername(user.getUsername())
+                .password(user.getPassword())
+                .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())))
+                .build();
+    }
 }
-//TODO user i trainer
+

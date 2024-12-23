@@ -34,14 +34,14 @@ public class WorkoutService {
         );
     }
 
-    public List<WorkoutDto> findByClientId(Long clientId) {
+    public List<WorkoutDto> findDtoByClientId(Long clientId) {
         return workoutRepository.findByClientId(clientId)
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
-    public List<WorkoutDto> findByTrainerId(Long trainerId) {
+    public List<WorkoutDto> findDtoByTrainerId(Long trainerId) {
         return workoutRepository.findByTrainerId(trainerId)
                 .stream()
                 .map(this::convertToDto)

@@ -28,8 +28,18 @@ public class TrainerService {
                 trainer.getUser().getFirstName(),
                 trainer.getUser().getLastName());
     }
-    public Optional<TrainerDto> findTrainerById(Long id) {
+    public Optional<TrainerDto> findDtoById(Long id) {
         return trainerRepository.findById(id)
+                .map(this::convertToDto);
+    }
+
+    public Optional<Trainer> findByUsername(String username) {
+        return Optional.ofNullable(trainerRepository.findByUser_Username(username)
+                .orElseThrow(() -> new RuntimeException("Trainer not found")));
+    }
+
+    public Optional<TrainerDto> findDtoByUsername(String username) {
+        return trainerRepository.findByUser_Username(username)
                 .map(this::convertToDto);
     }
 }

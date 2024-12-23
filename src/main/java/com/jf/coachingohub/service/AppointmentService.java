@@ -43,7 +43,7 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
 
-    public List<AppointmentDto> findByTrainerId(Long trainerId) {
+    public List<AppointmentDto> findDtoByTrainerId(Long trainerId) {
         return appointmentRepository.findByTrainerId(trainerId)
                 .stream()
                 .map(this::convertToDto)

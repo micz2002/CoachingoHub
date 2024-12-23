@@ -21,7 +21,7 @@ public class WorkoutController {
 
     @GetMapping("/client/{clientId}")
     public ResponseEntity<List<WorkoutDto>> getWorkoutsByClient(@PathVariable Long clientId) {
-        List<WorkoutDto> workouts = workoutService.findByClientId(clientId);
+        List<WorkoutDto> workouts = workoutService.findDtoByClientId(clientId);
         if (workouts.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -30,7 +30,7 @@ public class WorkoutController {
 
     @GetMapping("/trainer/{trainerId}")
     public ResponseEntity<List<WorkoutDto>> getWorkoutsByTrainer(@PathVariable Long trainerId) {
-        List<WorkoutDto> workouts = workoutService.findByTrainerId(trainerId);
+        List<WorkoutDto> workouts = workoutService.findDtoByTrainerId(trainerId);
         if (workouts.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

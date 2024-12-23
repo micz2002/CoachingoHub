@@ -30,7 +30,7 @@ public class AppointmentController {
 
     @GetMapping("/trainer/{trainerId}")
     public ResponseEntity<List<AppointmentDto>> getAppointmentsByTrainer(@PathVariable Long trainerId) {
-        List<AppointmentDto> appointments = appointmentService.findByTrainerId(trainerId);
+        List<AppointmentDto> appointments = appointmentService.findDtoByTrainerId(trainerId);
         if (appointments.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

@@ -26,21 +26,20 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<Object> getUserByUsername(@PathVariable String username) {
-        UserDto userDto = userService.findByUsername(username)
+        UserDto userDto = userService.findDtoByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-//        if (userDto.getRole().equals("TRAINER")) {
-//            TrainerDto trainerDto = trainerService.find(username);
-//            return ResponseEntity.ok(trainerDto);
-//        }
+        if (userDto.getRole().equals("TRAINER")) {
+            Optional<TrainerDto> trainerDto = trainerService.findDtoByUsername(username);
+            return ResponseEntity.ok(trainerDto);
+        }
 
         return ResponseEntity.ok(userDto);
-    //DO ZROBIENIA SPRAWDZENIE CZY USER TO TRENER
     }
 
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
-        return userService.findByEmail(email)
+        return userService.findDtoByEmail(email)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -33,7 +33,7 @@ public class ClientService {
         );
     }
 
-    public List<ClientDto> findByTrainerId(Long trainerId) {
+    public List<ClientDto> findDtoByTrainerId(Long trainerId) {
         return clientRepository.findByTrainerId(trainerId)
                 .stream()
                 .map(this::convertToDto)

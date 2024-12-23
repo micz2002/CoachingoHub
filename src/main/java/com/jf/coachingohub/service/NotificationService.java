@@ -34,7 +34,7 @@ public class NotificationService {
         );
     }
 
-    public List<NotificationDto> findByUserId(Long userId) {
+    public List<NotificationDto> findDtoByUserId(Long userId) {
         return notificationRepository.findByUserId(userId)
                 .stream()
                 .map(this::convertToDto)

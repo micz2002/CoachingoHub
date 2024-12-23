@@ -21,7 +21,7 @@ public class ClientController {
 
     @GetMapping("/trainer/{trainerId}")
     public ResponseEntity<List<ClientDto>> getClientsByTrainer(@PathVariable Long trainerId) {
-        List<ClientDto> clients = clientService.findByTrainerId(trainerId);
+        List<ClientDto> clients = clientService.findDtoByTrainerId(trainerId);
         if (clients.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

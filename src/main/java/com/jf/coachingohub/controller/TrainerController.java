@@ -21,7 +21,14 @@ public class TrainerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TrainerDto> getTrainerById(@PathVariable Long id) {
-        return trainerService.findTrainerById(id)
+        return trainerService.findDtoById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<TrainerDto> getTrainerByUsername(@PathVariable String username) {
+        return trainerService.findDtoByUsername(username)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
