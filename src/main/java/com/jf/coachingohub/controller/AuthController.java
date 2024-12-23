@@ -12,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
+//@CrossOrigin(origins = "http://127.0.0.1:5500", allowCredentials = "true")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
