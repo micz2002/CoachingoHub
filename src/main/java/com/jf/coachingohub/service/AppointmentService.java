@@ -9,6 +9,7 @@ import com.jf.coachingohub.repository.AppointmentRepository;
 import com.jf.coachingohub.repository.ClientRepository;
 import com.jf.coachingohub.repository.TrainerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public Appointment createAppointment(AppointmentCreateDto appointmentCreateDto, Long trainerId) {
         // Znajdowanie trenera
         Trainer trainer = trainerRepository.findById(trainerId)

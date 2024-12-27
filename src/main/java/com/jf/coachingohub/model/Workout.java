@@ -25,6 +25,9 @@ public class Workout {
     @Column(nullable = false)
     private LocalDateTime date;
 
+    @Column
+    private String notes;
+
     // Getters and setters
 
     public Long getId() {
@@ -65,5 +68,13 @@ public class Workout {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }
