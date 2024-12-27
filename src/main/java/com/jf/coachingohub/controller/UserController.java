@@ -61,13 +61,6 @@ public class UserController {
                 .orElse(ResponseEntity.badRequest().build());
     }
 
-    @PostMapping("/register-client")
-    public ResponseEntity<User> registerClient(@RequestBody @Valid UserAndTrainerRegisterDto dto) {
-        Optional<User> registeredClient = Optional.ofNullable(userService.registerTrainer(dto));
-        return registeredClient
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.badRequest().build());
-    }
 
     //do sprawdzenia czy w kontekscie springa security jest obiekt zalogowanego uzytkownika
     @GetMapping("/test-context")

@@ -1,18 +1,18 @@
 package com.jf.coachingohub.controller;
 
 import com.jf.coachingohub.dto.ClientCreateDto;
+import com.jf.coachingohub.dto.ClientDto;
 import com.jf.coachingohub.dto.TrainerDto;
 import com.jf.coachingohub.model.Client;
 import com.jf.coachingohub.model.Trainer;
-import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.service.ClientService;
 import com.jf.coachingohub.service.TrainerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -51,7 +51,7 @@ public class TrainerController {
 
     @PostMapping("/clients")
     public ResponseEntity<Client> createClient(@Valid @RequestBody ClientCreateDto clientCreateDto) {
-        // Pobierz zalogowanego użytkownika z SecurityContext
+        // Pobieranie zalogowanego użytkownika z SecurityContext
         org.springframework.security.core.userdetails.User authenticatedUser =
                 (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -63,6 +63,20 @@ public class TrainerController {
         return ResponseEntity.ok(createdClient);
     }
 
+    @GetMapping("/clients")
+    public ResponseEntity<List<ClientDto>> getClients() {
+        // Pobieranie zalogowanego użytkownika z SecurityContext
+        org.springframework.security.core.userdetails.User authenticatedUser =
+                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username = authenticatedUser.getUsername();
+        Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
+        Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
+
+        // Pobierz klientów powiązanych z trenerem
+        List<ClientDto> clients = clientService.findDtoByTrainerId(trainer.getId());
+        return ResponseEntity.ok(clients);
+    }
 
 
 }
