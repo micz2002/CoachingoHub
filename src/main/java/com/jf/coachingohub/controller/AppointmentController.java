@@ -1,11 +1,17 @@
 package com.jf.coachingohub.controller;
 
+import com.jf.coachingohub.dto.AppointmentCreateDto;
 import com.jf.coachingohub.dto.AppointmentDto;
 import com.jf.coachingohub.model.Appointment;
+import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.service.AppointmentService;
+import com.jf.coachingohub.service.TrainerService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +20,11 @@ import java.util.Optional;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
+    private final TrainerService trainerService;
 
-    public AppointmentController(AppointmentService appointmentService) {
+    public AppointmentController(AppointmentService appointmentService, TrainerService trainerService) {
         this.appointmentService = appointmentService;
+        this.trainerService = trainerService;
     }
 
     @GetMapping("/client/{clientId}")
@@ -37,12 +45,20 @@ public class AppointmentController {
         return ResponseEntity.ok(appointments);
     }
 
+    @PreAuthorize("hasRole('TRAINER')")
     @PostMapping
-    public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
-        Optional<Appointment> createdAppointment = Optional.ofNullable(appointmentService.save(appointment));
-        return createdAppointment
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.badRequest().build());
+    public ResponseEntity<Appointment> createAppointment(@RequestBody @Valid AppointmentCreateDto appointmentCreateDto) {
+        // Pobieranie zalogowanego użytkownika z SecurityContext
+        org.springframework.security.core.userdetails.User authenticatedUser =
+                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username = authenticatedUser.getUsername();
+        Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
+        Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
+
+        // Utworzenie wizyty
+        Appointment appointment = appointmentService.createAppointment(appointmentCreateDto, trainer.getId());
+        return ResponseEntity.ok(appointment);
     }
 }
 

@@ -1,10 +1,13 @@
 package com.jf.coachingohub.controller;
 
+import com.jf.coachingohub.dto.AppointmentCreateDto;
 import com.jf.coachingohub.dto.ClientCreateDto;
 import com.jf.coachingohub.dto.ClientDto;
 import com.jf.coachingohub.dto.TrainerDto;
+import com.jf.coachingohub.model.Appointment;
 import com.jf.coachingohub.model.Client;
 import com.jf.coachingohub.model.Trainer;
+import com.jf.coachingohub.service.AppointmentService;
 import com.jf.coachingohub.service.ClientService;
 import com.jf.coachingohub.service.TrainerService;
 import org.springframework.http.ResponseEntity;
@@ -77,6 +80,5 @@ public class TrainerController {
         List<ClientDto> clients = clientService.findDtoByTrainerId(trainer.getId());
         return ResponseEntity.ok(clients);
     }
-
 
 }
