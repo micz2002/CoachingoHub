@@ -1,11 +1,14 @@
 package com.jf.coachingohub.controller;
 
 import com.jf.coachingohub.dto.ClientDto;
+import com.jf.coachingohub.dto.UserAndTrainerRegisterDto;
 import com.jf.coachingohub.model.Client;
+import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.service.ClientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +22,7 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @GetMapping("/trainer/{trainerId}")
+    @GetMapping("/trainers/{trainerId}")
     public ResponseEntity<List<ClientDto>> getClientsByTrainer(@PathVariable Long trainerId) {
         List<ClientDto> clients = clientService.findDtoByTrainerId(trainerId);
         if (clients.isEmpty()) {
@@ -35,5 +38,6 @@ public class ClientController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.badRequest().build());
     }
+
 }
 

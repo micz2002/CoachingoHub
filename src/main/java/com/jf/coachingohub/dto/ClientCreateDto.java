@@ -1,7 +1,8 @@
 package com.jf.coachingohub.dto;
 
-import javax.validation.constraints.Email;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class ClientCreateDto {
 
@@ -18,20 +19,18 @@ public class ClientCreateDto {
     private String lastName;
 
     @NotBlank
+    private String email;
+
+    @NotNull
     private Integer age;
 
-    @NotBlank
+    @NotNull
     private Float weight;
 
-    @NotBlank
+    @NotNull
     private Float height;
 
-    @NotBlank
-    private Long trainerId;
-
     // Gettery i Settery
-
-
     public String getUsername() {
         return username;
     }
@@ -64,6 +63,14 @@ public class ClientCreateDto {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Integer getAge() {
         return age;
     }
@@ -86,13 +93,5 @@ public class ClientCreateDto {
 
     public void setHeight(Float height) {
         this.height = height;
-    }
-
-    public Long getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(Long trainerId) {
-        this.trainerId = trainerId;
     }
 }

@@ -7,6 +7,7 @@ import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.service.TrainerService;
 import com.jf.coachingohub.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -58,8 +59,20 @@ public class UserController {
         return registeredTrainer
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.badRequest().build());
-
     }
 
+    @PostMapping("/register-client")
+    public ResponseEntity<User> registerClient(@RequestBody @Valid UserAndTrainerRegisterDto dto) {
+        Optional<User> registeredClient = Optional.ofNullable(userService.registerTrainer(dto));
+        return registeredClient
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.badRequest().build());
+    }
+
+    //do sprawdzenia czy w kontekscie springa security jest obiekt zalogowanego uzytkownika
+    @GetMapping("/test-context")
+    public String testContext() {
+        return "Authentication in context: " + SecurityContextHolder.getContext().getAuthentication();
+    }
     //TODO zrobic logowanie
 }
