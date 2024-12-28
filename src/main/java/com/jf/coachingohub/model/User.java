@@ -30,6 +30,9 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
+    @Column(nullable = true)
+    private String phoneNumber;
+
     // Getters and setters
 
     public enum Role {
@@ -93,6 +96,12 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
 

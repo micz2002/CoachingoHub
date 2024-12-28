@@ -29,7 +29,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable()) // Wyłączenie CSRF
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/login", "/api/users/register-trainer",
-                                "/api/user/test-context" /*to ostatnie do usuniecia*/).permitAll()
+                                "/api/user/test-context", "/api/test-sms" /*to ostatnie do usuniecia*/).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/trainers/**")).hasRole("TRAINER")
                         .requestMatchers(new AntPathRequestMatcher("/api/clients/**")).hasRole("CLIENT")// Endpointy publiczne
                         .anyRequest().authenticated() // Pozostałe endpointy wymagają uwierzytelnienia

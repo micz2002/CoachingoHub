@@ -67,5 +67,5 @@ public class UserController {
     public String testContext() {
         return "Authentication in context: " + SecurityContextHolder.getContext().getAuthentication();
     }
-    //TODO zrobic logowanie
+
 }
