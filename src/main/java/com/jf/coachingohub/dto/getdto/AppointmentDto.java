@@ -1,24 +1,21 @@
-package com.jf.coachingohub.dto;
+package com.jf.coachingohub.dto.getdto;
 
 import java.time.LocalDateTime;
 
-public class WorkoutDto {
+public class AppointmentDto {
 
     private Long id;
     private Long clientId;
     private Long trainerId;
-    private String description;
     private LocalDateTime date;
+    private String status;
 
-    private String notes;
-
-    public WorkoutDto(Long id, Long clientId, Long trainerId, String description, LocalDateTime date, String notes) {
+    public AppointmentDto(Long id, Long clientId, Long trainerId, LocalDateTime date, String status) {
         this.id = id;
         this.clientId = clientId;
         this.trainerId = trainerId;
-        this.description = description;
         this.date = date;
-        this.notes = notes;
+        this.status = status;
     }
 
     // Gettery i Settery
@@ -46,14 +43,6 @@ public class WorkoutDto {
         this.trainerId = trainerId;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public LocalDateTime getDate() {
         return date;
     }
@@ -62,12 +51,12 @@ public class WorkoutDto {
         this.date = date;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getStatus() {
+        return status;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
 

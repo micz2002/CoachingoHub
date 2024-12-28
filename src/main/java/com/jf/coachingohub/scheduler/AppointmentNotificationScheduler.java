@@ -22,23 +22,23 @@ public class AppointmentNotificationScheduler {
     }
 
     //TODO pamietac odkomentowac ta funkcje
-    @Scheduled(fixedRate = 60000) // Uruchamianie co minutę
-    public void sendAppointmentReminders() {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime oneHourLater = now.plusHours(1);
-
-        // Pobranie wizyt zaplanowanych na następną godzinę
-        List<Appointment> upcomingAppointments = appointmentRepository.findByDateBetweenAndNotifiedFalse(now, oneHourLater);
-
-        for (Appointment appointment : upcomingAppointments) {
-            User client = appointment.getClient().getUser();
-            String message = "Przypomnienie: Masz trening zaplanowany na godzinę " + appointment.getDate();
-
-            appointment.setNotified(true);
-            appointmentRepository.save(appointment);
-
-            notificationService.sendSms(client, message);
-
-        }
-    }
+//    @Scheduled(fixedRate = 60000) // Uruchamianie co minutę
+//    public void sendAppointmentReminders() {
+//        LocalDateTime now = LocalDateTime.now();
+//        LocalDateTime oneHourLater = now.plusHours(1);
+//
+//        // Pobranie wizyt zaplanowanych na następną godzinę
+//        List<Appointment> upcomingAppointments = appointmentRepository.findByDateBetweenAndNotifiedFalse(now, oneHourLater);
+//
+//        for (Appointment appointment : upcomingAppointments) {
+//            User client = appointment.getClient().getUser();
+//            String message = "Przypomnienie: Masz trening zaplanowany na godzinę " + appointment.getDate();
+//
+//            appointment.setNotified(true);
+//            appointmentRepository.save(appointment);
+//
+//            notificationService.sendSms(client, message);
+//
+//        }
+//    }
 }

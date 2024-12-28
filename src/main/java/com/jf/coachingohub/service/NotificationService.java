@@ -1,6 +1,6 @@
 package com.jf.coachingohub.service;
 
-import com.jf.coachingohub.dto.NotificationDto;
+import com.jf.coachingohub.dto.getdto.NotificationDto;
 import com.jf.coachingohub.model.Notification;
 import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.repository.NotificationRepository;

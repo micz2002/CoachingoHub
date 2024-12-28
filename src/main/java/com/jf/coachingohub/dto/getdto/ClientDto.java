@@ -1,4 +1,4 @@
-package com.jf.coachingohub.dto;
+package com.jf.coachingohub.dto.getdto;
 
 public class ClientDto {
 

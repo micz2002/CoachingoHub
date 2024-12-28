@@ -1,6 +1,6 @@
 package com.jf.coachingohub.service;
 
-import com.jf.coachingohub.dto.TrainerDto;
+import com.jf.coachingohub.dto.getdto.TrainerDto;
 import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.repository.TrainerRepository;
 import org.springframework.stereotype.Service;

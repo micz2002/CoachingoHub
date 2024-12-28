@@ -1,4 +1,4 @@
-package com.jf.coachingohub.dto;
+package com.jf.coachingohub.dto.setdto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

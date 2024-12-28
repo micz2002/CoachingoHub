@@ -1,7 +1,7 @@
 package com.jf.coachingohub.service;
 
-import com.jf.coachingohub.dto.AppointmentCreateDto;
-import com.jf.coachingohub.dto.AppointmentDto;
+import com.jf.coachingohub.dto.setdto.AppointmentCreateDto;
+import com.jf.coachingohub.dto.getdto.AppointmentDto;
 import com.jf.coachingohub.model.Appointment;
 import com.jf.coachingohub.model.Client;
 import com.jf.coachingohub.model.Trainer;

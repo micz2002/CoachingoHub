@@ -1,16 +1,12 @@
 package com.jf.coachingohub.controller;
 
-import com.jf.coachingohub.dto.NotificationDto;
-import com.jf.coachingohub.model.Appointment;
+import com.jf.coachingohub.dto.getdto.NotificationDto;
 import com.jf.coachingohub.model.Notification;
-import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.repository.AppointmentRepository;
 import com.jf.coachingohub.service.NotificationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 

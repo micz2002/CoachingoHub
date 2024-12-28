@@ -1,4 +1,4 @@
-package com.jf.coachingohub.dto;
+package com.jf.coachingohub.dto.getdto;
 
 import jakarta.persistence.Column;
 

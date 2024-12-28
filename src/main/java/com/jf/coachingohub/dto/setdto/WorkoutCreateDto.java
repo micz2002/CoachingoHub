@@ -1,29 +1,26 @@
-package com.jf.coachingohub.dto;
+package com.jf.coachingohub.dto.setdto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-public class WorkoutUpdateDto {
+public class WorkoutCreateDto {
 
     @NotNull
-    private Long workoutId;
-
+    private Long clientId;
     @NotBlank
     private String description;
-
     @NotNull
     private LocalDateTime date;
-
     private String notes;
 
     // Gettery i settery
-    public Long getWorkoutId() {
-        return workoutId;
+    public Long getClientId() {
+        return clientId;
     }
 
-    public void setWorkoutId(Long workoutId) {
-        this.workoutId = workoutId;
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
     public String getDescription() {

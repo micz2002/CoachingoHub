@@ -1,7 +1,7 @@
 package com.jf.coachingohub.service;
 
-import com.jf.coachingohub.dto.UserDto;
-import com.jf.coachingohub.dto.UserAndTrainerRegisterDto;
+import com.jf.coachingohub.dto.getdto.UserDto;
+import com.jf.coachingohub.dto.setdto.UserAndTrainerRegisterDto;
 import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.repository.TrainerRepository;

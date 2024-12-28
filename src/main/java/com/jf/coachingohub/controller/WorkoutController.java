@@ -1,8 +1,7 @@
 package com.jf.coachingohub.controller;
 
-import com.jf.coachingohub.dto.WorkoutCreateDto;
-import com.jf.coachingohub.dto.WorkoutDto;
-import com.jf.coachingohub.dto.WorkoutUpdateDto;
+import com.jf.coachingohub.dto.setdto.WorkoutCreateDto;
+import com.jf.coachingohub.dto.getdto.WorkoutDto;
 import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.model.Workout;
 import com.jf.coachingohub.service.TrainerService;
