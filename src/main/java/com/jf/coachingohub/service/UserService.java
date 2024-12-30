@@ -2,8 +2,10 @@ package com.jf.coachingohub.service;
 
 import com.jf.coachingohub.dto.getdto.UserDto;
 import com.jf.coachingohub.dto.setdto.UserAndTrainerRegisterDto;
+import com.jf.coachingohub.model.ActivationToken;
 import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.model.User;
+import com.jf.coachingohub.repository.ActivationTokenRepository;
 import com.jf.coachingohub.repository.TrainerRepository;
 import com.jf.coachingohub.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -23,11 +26,15 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final TrainerRepository trainerRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ActivationTokenRepository activationTokenRepository;
+    private final EmailService emailService;
 
-    public UserService(UserRepository userRepository, TrainerRepository trainerRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, TrainerRepository trainerRepository, PasswordEncoder passwordEncoder, ActivationTokenRepository activationTokenRepository, EmailService emailService) {
         this.userRepository = userRepository;
         this.trainerRepository = trainerRepository;
         this.passwordEncoder = passwordEncoder;
+        this.activationTokenRepository = activationTokenRepository;
+        this.emailService = emailService;
     }
 
     private UserDto convertToDto(User user) {
@@ -62,6 +69,7 @@ public class UserService implements UserDetailsService {
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
         user.setRole(User.Role.TRAINER);
+        user.setActive(false);
 
         User savedUser = userRepository.save(user);
 
@@ -72,13 +80,58 @@ public class UserService implements UserDetailsService {
 
         trainerRepository.save(trainer);
 
+        // Generowanie tokenu
+        String token = UUID.randomUUID().toString();
+        ActivationToken activationToken = new ActivationToken();
+        activationToken.setToken(token);
+        activationToken.setUser(savedUser);
+        activationTokenRepository.save(activationToken);
+
+        // Wysłanie e-maila aktywacyjnego
+        String activationLink = "http://localhost:8080/api/users/activate?token=" + token;
+        emailService.sendEmail("coachingo.hub.testing@gmail.com", "Activate your account",
+                "<p>Hello, " + savedUser.getFirstName() + "!</p>" +
+                        "<p>Click the link below to activate your account:</p>" +
+                        "<a href='" + activationLink + "'>Activate Account</a>");
+
         return savedUser;
+    }
+
+    public String activateAccount(String token) {
+        Optional<ActivationToken> optionalToken = activationTokenRepository.findByToken(token);
+        if (optionalToken.isEmpty()) {
+            throw new IllegalArgumentException("Invalid activation token");
+        }
+
+        ActivationToken activationToken = optionalToken.get();
+        User user = activationToken.getUser();
+        user.setActive(true); // Aktywacja konta
+        userRepository.save(user);
+
+        activationTokenRepository.delete(activationToken); // Usuń token po aktywacji
+
+        return "Account activated successfully!";
+    }
+
+    public User validateAndGetActiveUser(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if(!user.isActive()) {
+            throw new IllegalStateException("Account is not active. Please check your email for activation link.");
+        }
+        return user;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        //sprawdzenie czy uzytkownik zostal zweryfikowany i jest aktywny, w przypadku tej aplikacji glownie chodzi aktywacje kotna trenera
+        if (!user.isActive()) {
+            throw new RuntimeException("Account is not active.");
+        }
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())

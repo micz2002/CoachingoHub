@@ -28,6 +28,7 @@ public class WorkoutController {
         this.trainerService = trainerService;
     }
 
+
     @GetMapping("/client/{clientId}")
     public ResponseEntity<List<WorkoutDto>> getWorkoutsByClient(@PathVariable Long clientId) {
         List<WorkoutDto> workouts = workoutService.findDtoByClientId(clientId);
@@ -36,6 +37,7 @@ public class WorkoutController {
         }
         return ResponseEntity.ok(workouts);
     }
+
 
     @GetMapping("/trainer/{trainerId}")
     public ResponseEntity<List<WorkoutDto>> getWorkoutsByTrainer(@PathVariable Long trainerId) {
@@ -58,7 +60,7 @@ public class WorkoutController {
         Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
         Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
 
-        // Utwórz trening
+        // Utworzenie treningu
         Workout workout = workoutService.createWorkout(workoutCreateDto, trainer.getId());
         return ResponseEntity.ok(workout);
     }

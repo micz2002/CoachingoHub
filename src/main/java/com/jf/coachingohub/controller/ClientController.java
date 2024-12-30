@@ -19,6 +19,7 @@ public class ClientController {
         this.clientService = clientService;
     }
 
+
     @GetMapping("/trainers/{trainerId}")
     public ResponseEntity<List<ClientDto>> getClientsByTrainer(@PathVariable Long trainerId) {
         List<ClientDto> clients = clientService.findDtoByTrainerId(trainerId);
@@ -26,14 +27,6 @@ public class ClientController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(clients);
-    }
-
-    @PostMapping
-    public ResponseEntity<Client> createClient(@RequestBody Client client) {
-        Optional<Client> createdClient = Optional.ofNullable(clientService.save(client));
-        return createdClient
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.badRequest().build());
     }
 
 }

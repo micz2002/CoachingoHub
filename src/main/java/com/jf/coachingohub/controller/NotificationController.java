@@ -15,12 +15,11 @@ import java.util.Optional;
 public class NotificationController {
 
     private final NotificationService notificationService;
-    private final AppointmentRepository appointmentRepository;
 
-    public NotificationController(NotificationService notificationService, AppointmentRepository appointmentRepository) {
+    public NotificationController(NotificationService notificationService) {
         this.notificationService = notificationService;
-        this.appointmentRepository = appointmentRepository;
     }
+
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<NotificationDto>> getNotificationsByUser(@PathVariable Long userId) {
@@ -30,6 +29,7 @@ public class NotificationController {
         }
         return ResponseEntity.ok(notifications);
     }
+
 
     @PostMapping
     public ResponseEntity<Notification> createNotification(@RequestBody Notification notification) {

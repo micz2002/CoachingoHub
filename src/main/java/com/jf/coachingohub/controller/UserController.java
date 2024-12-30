@@ -3,11 +3,12 @@ package com.jf.coachingohub.controller;
 import com.jf.coachingohub.dto.getdto.TrainerDto;
 import com.jf.coachingohub.dto.getdto.UserDto;
 import com.jf.coachingohub.dto.setdto.UserAndTrainerRegisterDto;
+import com.jf.coachingohub.model.ActivationToken;
 import com.jf.coachingohub.model.User;
+import com.jf.coachingohub.repository.ActivationTokenRepository;
 import com.jf.coachingohub.service.TrainerService;
 import com.jf.coachingohub.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ public class UserController {
         this.trainerService = trainerService;
     }
 
+
     @GetMapping("/{username}")
     public ResponseEntity<Object> getUserByUsername(@PathVariable String username) {
         UserDto userDto = userService.findDtoByUsername(username)
@@ -38,6 +40,7 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
+
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
         return userService.findDtoByEmail(email)
@@ -45,13 +48,6 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        Optional<User> createdUser = Optional.ofNullable(userService.save(user));
-        return createdUser
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.badRequest().build());
-    }
 
     @PostMapping("/register-trainer")
     public ResponseEntity<User> registerTrainer(@RequestBody @Valid UserAndTrainerRegisterDto dto) {
@@ -61,11 +57,21 @@ public class UserController {
                 .orElse(ResponseEntity.badRequest().build());
     }
 
+    @GetMapping("/activate")
+    public ResponseEntity<String> activateAccount(@RequestParam String token) {
+        try {
+            String response = userService.activateAccount(token);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
     //do sprawdzenia czy w kontekscie springa security jest obiekt zalogowanego uzytkownika
-    @GetMapping("/test-context")
-    public String testContext() {
-        return "Authentication in context: " + SecurityContextHolder.getContext().getAuthentication();
-    }
+//    @GetMapping("/test-context")
+//    public String testContext() {
+//        return "Authentication in context: " + SecurityContextHolder.getContext().getAuthentication();
+//    }
 
 }

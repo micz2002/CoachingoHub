@@ -67,6 +67,7 @@ public class ClientService {
         user.setLastName(clientCreateDto.getLastName());
         user.setEmail(clientCreateDto.getEmail());
         user.setRole(User.Role.CLIENT);
+        user.setActive(true);
 
         User savedUser = userRepository.save(user);
 

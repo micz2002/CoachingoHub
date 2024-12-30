@@ -33,12 +33,15 @@ public class User {
     @Column(nullable = true)
     private String phoneNumber;
 
-    // Getters and setters
+    @Column(nullable = false)
+    private boolean active = false;
 
     public enum Role {
         TRAINER,
         CLIENT
     }
+
+    // Getters and setters
 
     public Long getId() {
         return id;
@@ -99,9 +102,16 @@ public class User {
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
 

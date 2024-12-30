@@ -27,12 +27,14 @@ public class TrainerController {
         this.clientService = clientService;
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<TrainerDto> getTrainerById(@PathVariable Long id) {
         return trainerService.findDtoById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
 
     @GetMapping("/username/{username}")
     public ResponseEntity<TrainerDto> getTrainerByUsername(@PathVariable String username) {
@@ -41,13 +43,7 @@ public class TrainerController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<Trainer> createTrainer(@RequestBody Trainer trainer) {
-        Optional<Trainer> createdTrainer = Optional.ofNullable(trainerService.save(trainer));
-        return createdTrainer
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.badRequest().build());
-    }
+
 
     @PostMapping("/clients")
     public ResponseEntity<Client> createClient(@Valid @RequestBody ClientCreateDto clientCreateDto) {
@@ -62,6 +58,7 @@ public class TrainerController {
         Client createdClient = clientService.createClient(clientCreateDto, trainer.getId());
         return ResponseEntity.ok(createdClient);
     }
+
 
     @GetMapping("/clients")
     public ResponseEntity<List<ClientDto>> getClients() {
