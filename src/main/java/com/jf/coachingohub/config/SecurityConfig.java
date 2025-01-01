@@ -27,6 +27,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) // Wyłączenie CSRF
+                .cors(Customizer.withDefaults()) // Włączenie CORS (konfiguracja w WebConfig)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/login",
                                 "/api/users/**", "/api/test-sms" /*te 2 ostatnie do usuniecia*/).permitAll()

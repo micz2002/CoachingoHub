@@ -27,7 +27,7 @@ public class AuthController {
         this.userService = userService;
     }
 
-
+    //Na pewno stworzyc frontend do tego, jest to logowanie przez które ma być przekazywany jesli sie powiedzie token z jwt
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody Map<String, String> loginRequest) {
         String username = loginRequest.get("username");
@@ -38,7 +38,7 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(username, password)
             );
 
-
+            // Użycie serwisu do sprawdzenia czy uzytkownik jest zweryfikowany (trener)
             User user = userService.validateAndGetActiveUser(username);
 
             String token = jwtUtil.generateToken(username);

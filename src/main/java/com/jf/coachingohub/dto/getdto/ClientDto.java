@@ -10,9 +10,10 @@ public class ClientDto {
     private String firstName;
     private String lastName;
     private String email;
+    private String phoneNumber;
 
 
-    public ClientDto(Long id, Long trainerId, Integer age, Float weight, Float height , String firstName, String lastName, String email) {
+    public ClientDto(Long id, Long trainerId, Integer age, Float weight, Float height , String firstName, String lastName, String email, String phoneNumber) {
         this.id = id;
         this.trainerId = trainerId;
         this.age = age;
@@ -21,6 +22,7 @@ public class ClientDto {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     // Gettery i Settery
@@ -86,5 +88,13 @@ public class ClientDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

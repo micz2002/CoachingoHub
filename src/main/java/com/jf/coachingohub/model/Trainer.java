@@ -2,6 +2,8 @@ package com.jf.coachingohub.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "trainers")
 public class Trainer {
@@ -19,6 +21,13 @@ public class Trainer {
     @MapsId
     @JoinColumn(name = "id")
     private User user;
+
+    @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Workout> workouts;
+
+    @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Appointment> appointments;
+
 
     // Getters and setters
 
@@ -52,5 +61,21 @@ public class Trainer {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Workout> getWorkouts() {
+        return workouts;
+    }
+
+    public void setWorkouts(List<Workout> workouts) {
+        this.workouts = workouts;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }

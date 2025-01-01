@@ -27,7 +27,7 @@ public class TrainerController {
         this.clientService = clientService;
     }
 
-
+    //utworzyc frontend tylko jesli przydatny
     @GetMapping("/{id}")
     public ResponseEntity<TrainerDto> getTrainerById(@PathVariable Long id) {
         return trainerService.findDtoById(id)
@@ -35,7 +35,7 @@ public class TrainerController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
+    //utworzyc frontend tylko jesli przydatny
     @GetMapping("/username/{username}")
     public ResponseEntity<TrainerDto> getTrainerByUsername(@PathVariable String username) {
         return trainerService.findDtoByUsername(username)
@@ -44,7 +44,7 @@ public class TrainerController {
     }
 
 
-
+    //Na pewno stworzyc frontend do tego, ma to byc rejestracja klienta przez zalogowanego trenera dla tego zalogowanego trenera
     @PostMapping("/clients")
     public ResponseEntity<Client> createClient(@Valid @RequestBody ClientCreateDto clientCreateDto) {
         // Pobieranie zalogowanego użytkownika z SecurityContext
@@ -59,7 +59,8 @@ public class TrainerController {
         return ResponseEntity.ok(createdClient);
     }
 
-
+    //Na pewno stworzyc frontend do tego, ma to byc widok dostepnych klientwo powiazanych z zalogowanym trenerem do ktorych bedzie
+    //szlo zapisac treningi opisane w poprzednich kontroelrach, umowic wizyte itd
     @GetMapping("/clients")
     public ResponseEntity<List<ClientDto>> getClients() {
         // Pobieranie zalogowanego użytkownika z SecurityContext

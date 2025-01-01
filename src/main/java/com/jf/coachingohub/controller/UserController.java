@@ -26,7 +26,7 @@ public class UserController {
         this.trainerService = trainerService;
     }
 
-
+    //utworzyc frontend tylko jesli przydatny
     @GetMapping("/{username}")
     public ResponseEntity<Object> getUserByUsername(@PathVariable String username) {
         UserDto userDto = userService.findDtoByUsername(username)
@@ -40,7 +40,7 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-
+    //utworzyc frontend tylko jesli przydatny
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
         return userService.findDtoByEmail(email)
@@ -48,7 +48,8 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
+    //Na pewno stworzyc frontend do tego, chce zeby to była rejestracja trenera, czyli głowna czynnosc jakas trzeba zrobic,
+    //wiec trzeba przekaz na froncie wszystkie potrzebne rzeczy do tego bo dopiero po tym bedzie sie na koncie trenera i z niego mozna robic dalsze rzeczy
     @PostMapping("/register-trainer")
     public ResponseEntity<User> registerTrainer(@RequestBody @Valid UserAndTrainerRegisterDto dto) {
         Optional<User> registeredTrainer = Optional.ofNullable(userService.registerTrainer(dto));
@@ -67,11 +68,32 @@ public class UserController {
         }
     }
 
-
     //do sprawdzenia czy w kontekscie springa security jest obiekt zalogowanego uzytkownika
 //    @GetMapping("/test-context")
 //    public String testContext() {
 //        return "Authentication in context: " + SecurityContextHolder.getContext().getAuthentication();
 //    }
+
+    //TODO DOROBIC FRONTA Z RESETEM HASLA
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> requestPasswordReset(@RequestParam String email) {
+        try {
+            userService.generatePasswordResetToken(email);
+            return ResponseEntity.ok("Password reset link sent to your email.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        try {
+            userService.resetPassword(token, newPassword);
+            return ResponseEntity.ok("Password reset successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
 }

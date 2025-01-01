@@ -27,6 +27,7 @@ public class AppointmentController {
         this.trainerService = trainerService;
     }
 
+    //utworzyc frontend tylko jesli przydatny
     @GetMapping("/client/{clientId}")
     public ResponseEntity<List<AppointmentDto>> getAppointmentsByClient(@PathVariable Long clientId) {
         List<AppointmentDto> appointments = appointmentService.findByClientId(clientId);
@@ -36,6 +37,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointments);
     }
 
+    //utworzyc frontend tylko jesli przydatny
     @GetMapping("/trainer/{trainerId}")
     public ResponseEntity<List<AppointmentDto>> getAppointmentsByTrainer(@PathVariable Long trainerId) {
         List<AppointmentDto> appointments = appointmentService.findDtoByTrainerId(trainerId);
@@ -44,7 +46,8 @@ public class AppointmentController {
         }
         return ResponseEntity.ok(appointments);
     }
-
+    //Na pewno stworzyc frontend do tego, jest to umówienie wizyty dla danego klienta przez zalogowanego trenera tworzac wizyte
+    //zalozenei jest zebym nacisnal np przycisk umow wizyte przy danym kliencie i autoamtucznie zostanie przekazane juz username klienta trenera
     @PreAuthorize("hasRole('TRAINER')")
     @PostMapping
     public ResponseEntity<Appointment> createAppointment(@RequestBody @Valid AppointmentCreateDto appointmentCreateDto) {

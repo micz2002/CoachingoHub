@@ -22,6 +22,8 @@ public class UserAndTrainerRegisterDto {
     @NotBlank
     private String email;
 
+    private String phoneNumber;
+
     // Dane trenera
     @NotBlank
     private String specialization;
@@ -85,5 +87,13 @@ public class UserAndTrainerRegisterDto {
 
     public void setExperience(Integer experience) {
         this.experience = experience;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

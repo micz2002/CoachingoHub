@@ -21,6 +21,8 @@ public class ClientCreateDto {
     @NotBlank
     private String email;
 
+    private String phoneNumber;
+
     @NotNull
     private Integer age;
 
@@ -93,5 +95,13 @@ public class ClientCreateDto {
 
     public void setHeight(Float height) {
         this.height = height;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

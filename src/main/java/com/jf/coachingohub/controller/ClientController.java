@@ -19,7 +19,7 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-
+    //utworzyc frontend tylko jesli przydatny
     @GetMapping("/trainers/{trainerId}")
     public ResponseEntity<List<ClientDto>> getClientsByTrainer(@PathVariable Long trainerId) {
         List<ClientDto> clients = clientService.findDtoByTrainerId(trainerId);

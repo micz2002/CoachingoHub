@@ -43,7 +43,8 @@ public class ClientService {
                 client.getHeight(),
                 client.getUser().getFirstName(),
                 client.getUser().getLastName(),
-                client.getUser().getEmail());
+                client.getUser().getEmail(),
+                client.getUser().getPhoneNumber());
     }
 
     public List<ClientDto> findDtoByTrainerId(Long trainerId) {
@@ -66,6 +67,7 @@ public class ClientService {
         user.setFirstName(clientCreateDto.getFirstName());
         user.setLastName(clientCreateDto.getLastName());
         user.setEmail(clientCreateDto.getEmail());
+        user.setPhoneNumber(clientCreateDto.getPhoneNumber());
         user.setRole(User.Role.CLIENT);
         user.setActive(true);
 

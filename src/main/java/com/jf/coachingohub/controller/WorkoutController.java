@@ -28,7 +28,7 @@ public class WorkoutController {
         this.trainerService = trainerService;
     }
 
-
+    //utworzyc frontend tylko jesli przydatny
     @GetMapping("/client/{clientId}")
     public ResponseEntity<List<WorkoutDto>> getWorkoutsByClient(@PathVariable Long clientId) {
         List<WorkoutDto> workouts = workoutService.findDtoByClientId(clientId);
@@ -38,7 +38,7 @@ public class WorkoutController {
         return ResponseEntity.ok(workouts);
     }
 
-
+    //utworzyc frontend tylko jesli przydatny
     @GetMapping("/trainer/{trainerId}")
     public ResponseEntity<List<WorkoutDto>> getWorkoutsByTrainer(@PathVariable Long trainerId) {
         List<WorkoutDto> workouts = workoutService.findDtoByTrainerId(trainerId);
@@ -48,7 +48,7 @@ public class WorkoutController {
         return ResponseEntity.ok(workouts);
     }
 
-
+    //Na pewno stworzyc frontend do tego, chce zeby trening tworzyl zalogowany trener dla wybranego klienta zgodnie z dzialaniem metody
     @PreAuthorize("hasRole('TRAINER')")
     @PostMapping
     public ResponseEntity<Workout> createWorkout(@RequestBody @Valid WorkoutCreateDto workoutCreateDto) {
@@ -65,7 +65,7 @@ public class WorkoutController {
         return ResponseEntity.ok(workout);
     }
 
-
+    //Na pewno stworzyc frontend do tego, chce zeby była mozliwosc aktualizacji treningu np poprzez przycisk zapisz czy cos
     @PreAuthorize("hasRole('TRAINER')")
     @PatchMapping("/{workoutId}")
     public ResponseEntity<Workout> updateWorkout(

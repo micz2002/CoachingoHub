@@ -68,6 +68,7 @@ public class UserService implements UserDetailsService {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
+        user.setPhoneNumber(dto.getPhoneNumber());
         user.setRole(User.Role.TRAINER);
         user.setActive(false);
 
@@ -139,5 +140,36 @@ public class UserService implements UserDetailsService {
                 .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())))
                 .build();
     }
+
+    @Transactional
+    public void generatePasswordResetToken(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
+
+        String token = UUID.randomUUID().toString();
+        ActivationToken resetToken = new ActivationToken();
+        resetToken.setToken(token);
+        resetToken.setUser(user);
+        activationTokenRepository.save(resetToken);
+
+        String resetLink = "http://localhost:8080/api/users/reset-password?token=" + token;
+        emailService.sendEmail("coachingo.hub.testing@gmail.com", "Reset your password",
+                "<p>Hello, " + user.getFirstName() + "!</p>" +
+                        "<p>Click the link below to reset your password:</p>" +
+                        "<a href='" + resetLink + "'>Reset Password</a>");
+    }
+
+    @Transactional
+    public void resetPassword(String token, String newPassword) {
+        ActivationToken resetToken = activationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid reset token"));
+
+        User user = resetToken.getUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        activationTokenRepository.delete(resetToken);
+    }
+
 }
 

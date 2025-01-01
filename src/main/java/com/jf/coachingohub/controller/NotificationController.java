@@ -20,7 +20,7 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
-
+    //nie tworzyc na froncie
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<NotificationDto>> getNotificationsByUser(@PathVariable Long userId) {
         List<NotificationDto> notifications = notificationService.findDtoByUserId(userId);
@@ -30,7 +30,7 @@ public class NotificationController {
         return ResponseEntity.ok(notifications);
     }
 
-
+    //Nie tworzyc na froncie
     @PostMapping
     public ResponseEntity<Notification> createNotification(@RequestBody Notification notification) {
         Optional<Notification> createdNotification = Optional.ofNullable(notificationService.save(notification));

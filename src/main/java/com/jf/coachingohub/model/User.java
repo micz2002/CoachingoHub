@@ -1,6 +1,9 @@
 package com.jf.coachingohub.model;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,6 +24,7 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    //TODO wyczyscic tabele w bazie i zrobic email na unique i w bazie tez zmienic
     @Column(nullable = false)
     private String email;
 
@@ -36,6 +40,17 @@ public class User {
     @Column(nullable = false)
     private boolean active = false;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Trainer trainer;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Client client;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notifications = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ActivationToken activationToken;
     public enum Role {
         TRAINER,
         CLIENT
@@ -112,6 +127,38 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
+
+    public ActivationToken getActivationToken() {
+        return activationToken;
+    }
+
+    public void setActivationToken(ActivationToken activationToken) {
+        this.activationToken = activationToken;
     }
 }
 

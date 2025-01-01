@@ -26,7 +26,9 @@ public class TrainerService {
                 trainer.getSpecialization(),
                 trainer.getExperience(),
                 trainer.getUser().getFirstName(),
-                trainer.getUser().getLastName());
+                trainer.getUser().getLastName(),
+                trainer.getUser().getEmail(),
+                trainer.getUser().getPhoneNumber());
     }
     public Optional<TrainerDto> findDtoById(Long id) {
         return trainerRepository.findById(id)

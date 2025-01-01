@@ -13,7 +13,7 @@ public class TestSmsController {
         this.smsService = smsService;
     }
 
-
+    //testowy endpoint
     @PostMapping
     public String sendTestSms(@RequestParam String toPhoneNumber, @RequestParam String message) {
         smsService.sendSms(toPhoneNumber, message);

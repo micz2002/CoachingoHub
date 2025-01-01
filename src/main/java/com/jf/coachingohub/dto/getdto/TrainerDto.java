@@ -7,13 +7,17 @@ public class TrainerDto {
     private Integer experience;
     private String firstName;
     private String lastName;
+    private String email;
+    private String phoneNumber;
 
-    public TrainerDto(Long id, String specialization, Integer experience, String firstName, String lastName) {
+    public TrainerDto(Long id, String specialization, Integer experience, String firstName, String lastName, String email, String phoneNumber) {
         this.id = id;
         this.specialization = specialization;
         this.experience = experience;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     // Gettery i Settery
@@ -55,5 +59,21 @@ public class TrainerDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
