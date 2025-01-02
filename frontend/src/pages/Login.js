@@ -27,6 +27,7 @@ const Login = () => {
       const decodedToken = jwtDecode(token);
       const userRole = decodedToken.role; // Zakładamy, że `role` znajduje się w payloadzie JWT
       localStorage.setItem("userRole", userRole);
+      localStorage.setItem("loggedInUser", username); // Zapisanie nazwy użytkownika
 
       console.log("Zalogowany użytkownik ma rolę:", userRole); // Debugowanie roli
 

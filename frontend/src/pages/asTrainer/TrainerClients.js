@@ -14,6 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const TrainerClients = () => {
   const [clients, setClients] = useState([]);
@@ -24,11 +25,13 @@ const TrainerClients = () => {
     firstName: "",
     lastName: "",
     email: "",
-    phoneNumber:"",
+    phoneNumber: "",
     age: "",
     weight: "",
     height: "",
   });
+
+  const navigate = useNavigate();
 
   const fetchClients = async () => {
     try {
@@ -73,7 +76,12 @@ const TrainerClients = () => {
       <Typography variant="h5" gutterBottom>
         Lista klientów
       </Typography>
-      <Button variant="contained" color="primary" onClick={handleOpen} style={{ marginBottom: "20px" }}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleOpen}
+        style={{ marginBottom: "20px" }}
+      >
         Dodaj klienta
       </Button>
       <TableContainer component={Paper}>
@@ -84,9 +92,6 @@ const TrainerClients = () => {
               <TableCell>Imię</TableCell>
               <TableCell>Nazwisko</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Wiek</TableCell>
-              <TableCell>Waga (kg)</TableCell>
-              <TableCell>Wzrost (cm)</TableCell>
               <TableCell>Akcje</TableCell>
             </TableRow>
           </TableHead>
@@ -97,16 +102,13 @@ const TrainerClients = () => {
                 <TableCell>{client.firstName}</TableCell>
                 <TableCell>{client.lastName}</TableCell>
                 <TableCell>{client.email}</TableCell>
-                <TableCell>{client.age}</TableCell>
-                <TableCell>{client.weight}</TableCell>
-                <TableCell>{client.height}</TableCell>
                 <TableCell>
                   <Button
                     variant="outlined"
                     color="primary"
-                    onClick={() => alert(`Zarządzaj klientem: ${client.firstName} ${client.lastName}`)}
+                    onClick={() => navigate(`/clients/${client.id}`)}
                   >
-                    Zarządzaj
+                    Szczegóły
                   </Button>
                 </TableCell>
               </TableRow>
@@ -144,7 +146,7 @@ const TrainerClients = () => {
             <TextField
               label="Hasło"
               name="password"
-              type="tel"
+              type="password"
               fullWidth
               margin="normal"
               value={newClient.password}
@@ -178,7 +180,7 @@ const TrainerClients = () => {
             <TextField
               label="Phone Number"
               name="phoneNumber"
-              type="phoneNumber"
+              type="text"
               fullWidth
               margin="normal"
               value={newClient.phoneNumber}
@@ -223,7 +225,6 @@ const TrainerClients = () => {
           </form>
         </Box>
       </Modal>
-      
     </Box>
   );
 };

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,6 +84,11 @@ public class ClientService {
         client.setHeight(clientCreateDto.getHeight());
 
         return clientRepository.save(client);
+    }
+
+    public Optional<ClientDto> findDtoById(Long clientId) {
+        return clientRepository.findById(clientId)
+                .map(this::convertToDto);
     }
 }
 

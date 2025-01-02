@@ -76,4 +76,14 @@ public class TrainerController {
         return ResponseEntity.ok(clients);
     }
 
+    @GetMapping("/clients/{id}")
+    public ResponseEntity<ClientDto> getClientById(@PathVariable Long id) {
+        // Znajdź klienta po jego ID
+        ClientDto clientDto = clientService.findDtoById(id)
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+
+        return ResponseEntity.ok(clientDto);
+    }
+
+
 }
