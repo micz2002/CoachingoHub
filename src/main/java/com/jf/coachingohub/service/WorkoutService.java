@@ -59,7 +59,7 @@ public class WorkoutService {
     @Transactional
     public Workout createWorkout(WorkoutCreateDto workoutCreateDto, Long trainerId) {
         // Szukanie klienta w bazie danych
-        Client client = clientRepository.findById(workoutCreateDto.getClientId())
+        Client client = clientRepository.findByUser_Username(workoutCreateDto.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("Client not found"));
 
         // Sprawdzenie, czy klient należy do zalogowanego trenera

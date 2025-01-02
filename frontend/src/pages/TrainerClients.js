@@ -223,6 +223,7 @@ const TrainerClients = () => {
           </form>
         </Box>
       </Modal>
+      
     </Box>
   );
 };

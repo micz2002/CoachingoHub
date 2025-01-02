@@ -4,6 +4,7 @@ public class ClientDto {
 
     private Long id;
     private Long trainerId;
+    private String username;
     private Integer age;
     private Float weight;
     private Float height;
@@ -13,9 +14,10 @@ public class ClientDto {
     private String phoneNumber;
 
 
-    public ClientDto(Long id, Long trainerId, Integer age, Float weight, Float height , String firstName, String lastName, String email, String phoneNumber) {
+    public ClientDto(Long id, Long trainerId, String username, Integer age, Float weight, Float height , String firstName, String lastName, String email, String phoneNumber) {
         this.id = id;
         this.trainerId = trainerId;
+        this.username = username;
         this.age = age;
         this.weight = weight;
         this.height = height;
@@ -96,5 +98,13 @@ public class ClientDto {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

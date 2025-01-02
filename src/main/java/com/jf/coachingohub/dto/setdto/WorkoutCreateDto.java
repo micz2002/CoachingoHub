@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public class WorkoutCreateDto {
 
     @NotNull
-    private Long clientId;
+    private String username;
     @NotBlank
     private String description;
     @NotNull
@@ -15,12 +15,12 @@ public class WorkoutCreateDto {
     private String notes;
 
     // Gettery i settery
-    public Long getClientId() {
-        return clientId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getDescription() {

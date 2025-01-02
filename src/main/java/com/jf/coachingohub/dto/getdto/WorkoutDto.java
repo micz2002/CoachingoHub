@@ -7,15 +7,17 @@ public class WorkoutDto {
     private Long id;
     private Long clientId;
     private Long trainerId;
+    //private String username;
     private String description;
     private LocalDateTime date;
 
     private String notes;
 
-    public WorkoutDto(Long id, Long clientId, Long trainerId, String description, LocalDateTime date, String notes) {
+    public WorkoutDto(Long id, Long clientId, Long trainerId, /*String username,*/ String description, LocalDateTime date, String notes) {
         this.id = id;
         this.clientId = clientId;
         this.trainerId = trainerId;
+        //this.username = username;
         this.description = description;
         this.date = date;
         this.notes = notes;
@@ -69,5 +71,13 @@ public class WorkoutDto {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
 }
 

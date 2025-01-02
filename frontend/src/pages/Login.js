@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { TextField, Button, Container, Typography, Box, AppBar, Toolbar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -19,13 +20,27 @@ const Login = () => {
         password,
       });
 
-      const { token } = response.data;
+      const token = response.data.token;
       localStorage.setItem("jwtToken", token);
-      alert("Zalogowano pomyślnie!");
-      // Redirect user to the dashboard or another page
-      navigate("/dashboard")
+
+      // Dekodowanie tokena JWT
+      const decodedToken = jwtDecode(token);
+      const userRole = decodedToken.role; // Zakładamy, że `role` znajduje się w payloadzie JWT
+      localStorage.setItem("userRole", userRole);
+
+      console.log("Zalogowany użytkownik ma rolę:", userRole); // Debugowanie roli
+
+      // Przekierowanie w zależności od roli
+      if (userRole === "ROLE_TRAINER") {
+        navigate("/dashboard-trainer");
+      } else if (userRole === "ROLE_CLIENT") {
+        navigate("/dashboard-client");
+      } else {
+        alert("Nieznana rola użytkownika");
+      }
     } catch (err) {
       setError("Nieprawidłowa nazwa użytkownika lub hasło.");
+      console.error("Login error", err);
     }
   };
 
@@ -62,39 +77,29 @@ const Login = () => {
               boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" gutterBottom>Logowanie</Typography>
+          {error && <Typography color="error">{error}</Typography>}
+          <form onSubmit={handleLogin}>
+            <TextField
+              label="Nazwa użytkownika"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Hasło"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+            <Button type="submit" variant="contained" color="primary" fullWidth>
               Zaloguj się
-            </Typography>
-            {error && (
-              <Typography color="error" gutterBottom>
-                {error}
-              </Typography>
-            )}
-            <form onSubmit={handleLogin} style={{ width: "100%" }}>
-              <TextField
-                label="Nazwa użytkownika"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-              <TextField
-                label="Hasło"
-                type="password"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: "20px" }}>
-                Zaloguj się
-              </Button>
-            </form>
-          </Box>
+            </Button>
+          </form>
+        </Box>
         </Container>
 
         <Box

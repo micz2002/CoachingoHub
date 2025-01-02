@@ -134,11 +134,13 @@ public class UserService implements UserDetailsService {
             throw new RuntimeException("Account is not active.");
         }
 
-        return org.springframework.security.core.userdetails.User
+        UserDetails userDetails = org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
                 .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())))
                 .build();
+        System.out.println("ROLA: " + userDetails.getAuthorities().iterator().next().getAuthority());
+        return userDetails;
     }
 
     @Transactional

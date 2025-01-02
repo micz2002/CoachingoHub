@@ -1,5 +1,6 @@
 package com.jf.coachingohub.controller;
 
+import com.jf.coachingohub.dto.getdto.ClientDto;
 import com.jf.coachingohub.dto.setdto.WorkoutCreateDto;
 import com.jf.coachingohub.dto.getdto.WorkoutDto;
 import com.jf.coachingohub.model.Trainer;
@@ -75,6 +76,8 @@ public class WorkoutController {
         Workout updatedWorkout = workoutService.partialUpdateWorkout(workoutId, updates);
         return ResponseEntity.ok(updatedWorkout);
     }
+
+
 
 }
 

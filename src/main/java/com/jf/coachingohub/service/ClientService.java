@@ -38,6 +38,7 @@ public class ClientService {
         return new ClientDto(
                 client.getId(),
                 client.getTrainer().getId(),
+                client.getUser().getUsername(),
                 client.getAge(),
                 client.getWeight(),
                 client.getHeight(),

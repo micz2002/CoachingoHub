@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { AppBar, Toolbar, Typography, Button, Box, Tabs, Tab, Container } from "@mui/material";
 import axios from "axios";
 import TrainerClients from "./TrainerClients";
+import TrainerWorkouts from "./TrainerWorkouts";
 
 const TrainerDashboard = () => {
   const [trainerInfo, setTrainerInfo] = useState({ firstName: "", lastName: "", username: "" });
@@ -35,7 +36,7 @@ const TrainerDashboard = () => {
       case 1:
         return <TrainerClients />;
       case 2:
-        return <Typography>Zarządzanie treningami - Tutaj będą treningi</Typography>;
+        return <TrainerWorkouts />;
       case 3:
         return <Typography>Umawianie wizyt - Tutaj można umawiać wizyty</Typography>;
       default:
@@ -45,6 +46,13 @@ const TrainerDashboard = () => {
 
   return (
     <>
+    <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
+            }}
+          >
       <AppBar position="static" style={{ backgroundColor: "#0073e6" }}>
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
@@ -75,7 +83,23 @@ const TrainerDashboard = () => {
 
         <Box mt={4}>{renderTabContent()}</Box>
       </Container>
+      <Box
+                component="footer"
+                style={{
+                  backgroundColor: "#f1f1f1",
+                  padding: "10px 0",
+                  textAlign: "center",
+                  marginTop: "auto",
+                }}
+              >
+                <Typography variant="body2" color="textSecondary">
+                  &copy; 2024 CoachingoHub. Wszelkie prawa zastrzeżone.
+                </Typography>
+              </Box>
+              </Box>
+            
     </>
+    
   );
 };
 

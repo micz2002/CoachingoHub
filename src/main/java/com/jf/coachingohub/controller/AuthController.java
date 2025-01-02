@@ -38,10 +38,13 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(username, password)
             );
 
-            // Użycie serwisu do sprawdzenia czy uzytkownik jest zweryfikowany (trener)
+            // Użycie serwisu do sprawdzenia czy uzytkownik jest zweryfikowany (trener bo klient zawsze jest aktywny bo tworzy go trener)
             User user = userService.validateAndGetActiveUser(username);
 
-            String token = jwtUtil.generateToken(username);
+            // Pobierz rolę użytkownika
+            String role = "ROLE_" + user.getRole().name();
+
+            String token = jwtUtil.generateToken(username, role);
             Map<String, String> response = new HashMap<>();
             response.put("token", token);
             return response;
