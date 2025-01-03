@@ -95,8 +95,23 @@ const ClientDetails = () => {
   const handleLogout = () => {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("userRole");
     navigate("/");
   };
+
+  const handleDeleteWorkout = async (workoutId) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/workouts/${workoutId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      });
+      fetchWorkouts(); // Odśwież listę treningów po usunięciu
+    } catch (err) {
+      console.error("Error deleting workout", err);
+    }
+  };
+
 
   useEffect(() => {
     const user = localStorage.getItem("loggedInUser");
@@ -154,9 +169,10 @@ const ClientDetails = () => {
 
           <Button
             variant="contained"
-            style={{ 
+            style={{
               backgroundColor: "#005eff",
-              marginBottom: "20px" }}
+              marginBottom: "20px"
+            }}
             onClick={() => navigate(-1)}
           >
             Powrót
@@ -186,8 +202,16 @@ const ClientDetails = () => {
                         variant="outlined"
                         color="primary"
                         onClick={() => setEditingWorkout(workout)}
+                        style={{ marginRight: "10px" }}
                       >
                         Edytuj
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => handleDeleteWorkout(workout.id)}
+                      >
+                        Usuń
                       </Button>
                     </TableCell>
                   </TableRow>

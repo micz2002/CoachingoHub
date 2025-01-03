@@ -78,18 +78,6 @@ public class WorkoutService {
         return workoutRepository.save(workout);
     }
 
-//    @Transactional
-//    public Workout updateWorkout(WorkoutUpdateDto workoutUpdateDto) {
-//        Workout workout = workoutRepository.findById(workoutUpdateDto.getWorkoutId())
-//                .orElseThrow(() -> new IllegalArgumentException("Workout not found"));
-//
-//        workout.setDescription(workoutUpdateDto.getDescription());
-//        workout.setDate(workoutUpdateDto.getDate());
-//        workout.setNotes(workoutUpdateDto.getNotes());
-//
-//        return workoutRepository.save(workout);
-//    }
-
     @Transactional
     public Workout partialUpdateWorkout(Long workoutId, Map<String, Object> updates) {
         Workout workout = workoutRepository.findById(workoutId)
@@ -108,4 +96,18 @@ public class WorkoutService {
 
         return workoutRepository.save(workout);
     }
+
+    @Transactional
+    public void deleteWorkout(Long workoutId, Long trainerId) {
+        Workout workout = workoutRepository.findById(workoutId)
+                .orElseThrow(() -> new IllegalArgumentException("Workout not found"));
+
+        // Sprawdzenie, czy trening należy do trenera
+        if (!workout.getTrainer().getId().equals(trainerId)) {
+            throw new IllegalArgumentException("Workout does not belong to this trainer");
+        }
+
+        workoutRepository.delete(workout);
+    }
+
 }

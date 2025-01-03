@@ -13,7 +13,6 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<RegisterTrainer />} />
-        <Route path="/clients/:id" element={<ClientDetails />} />
 
         {/* Trasa chroniona dla trenera */}
         <Route
@@ -21,6 +20,14 @@ const App = () => {
           element={
             <ProtectedRoute requiredRole="ROLE_TRAINER">
               <TrainerDashboard />
+            </ProtectedRoute>
+          }
+        />
+           <Route
+          path="/clients/:id"
+          element={
+            <ProtectedRoute requiredRole="ROLE_TRAINER">
+              <ClientDetails />
             </ProtectedRoute>
           }
         />

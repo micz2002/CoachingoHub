@@ -4,11 +4,14 @@ import axios from "axios";
 import TrainerClients from "./TrainerClients";
 import TrainerWorkouts from "./TrainerWorkouts";
 import { useNavigate } from "react-router-dom";
+import { red } from "@mui/material/colors";
 
 const TrainerDashboard = () => {
   const [trainerInfo, setTrainerInfo] = useState({ firstName: "", lastName: "", username: "" });
   const [tabIndex, setTabIndex] = useState(0);
+  const [loggedInUser, setLoggedInUser] = useState("");
   const navigate = useNavigate();
+  
 
   const fetchTrainerInfo = async () => {
     try {
@@ -25,11 +28,17 @@ const TrainerDashboard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("jwtToken"); // Usuń token JWT
+    localStorage.removeItem("loggedInUser");
     localStorage.removeItem("userRole"); // Usuń rolę użytkownika
     navigate("/"); // Przekieruj na stronę logowania
   };
 
   useEffect(() => {
+    const user = localStorage.getItem("loggedInUser");
+      if (user) {
+        setLoggedInUser(user);
+      }
+
     fetchTrainerInfo();
   }, []);
 
@@ -67,7 +76,7 @@ const TrainerDashboard = () => {
               CoachingoHub - Panel Trenera
             </Typography>
             <Typography variant="body1" style={{ marginRight: "20px" }}>
-              Zalogowany: {trainerInfo.firstName} {trainerInfo.lastName} ({trainerInfo.username})
+            Zalogowany: {loggedInUser}
             </Typography>
             <Button color="inherit" onClick={handleLogout}>
               Wyloguj się

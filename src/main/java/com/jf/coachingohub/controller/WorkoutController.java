@@ -77,6 +77,21 @@ public class WorkoutController {
         return ResponseEntity.ok(updatedWorkout);
     }
 
+    @PreAuthorize("hasRole('TRAINER')")
+    @DeleteMapping("/{workoutId}")
+    public ResponseEntity<String> deleteWorkout(@PathVariable Long workoutId) {
+        // Pobieranie zalogowanego użytkownika z SecurityContext
+        org.springframework.security.core.userdetails.User authenticatedUser =
+                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username = authenticatedUser.getUsername();
+        Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
+        Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
+
+        // Usunięcie treningu
+        workoutService.deleteWorkout(workoutId, trainer.getId());
+        return ResponseEntity.ok("Workout deleted successfully.");
+    }
 
 
 }
