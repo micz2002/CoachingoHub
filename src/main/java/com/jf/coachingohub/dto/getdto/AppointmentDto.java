@@ -9,13 +9,15 @@ public class AppointmentDto {
     private Long trainerId;
     private LocalDateTime date;
     private String status;
+    private String description;
 
-    public AppointmentDto(Long id, Long clientId, Long trainerId, LocalDateTime date, String status) {
+    public AppointmentDto(Long id, Long clientId, Long trainerId, LocalDateTime date, String status, String description) {
         this.id = id;
         this.clientId = clientId;
         this.trainerId = trainerId;
         this.date = date;
         this.status = status;
+        this.description = description;
     }
 
     // Gettery i Settery
@@ -57,6 +59,14 @@ public class AppointmentDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
 

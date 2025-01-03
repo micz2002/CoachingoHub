@@ -11,8 +11,10 @@ import com.jf.coachingohub.repository.TrainerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,8 +40,8 @@ public class AppointmentService {
                 appointment.getClient().getId(),
                 appointment.getTrainer().getId(),
                 appointment.getDate(),
-                appointment.getStatus().name()
-        );
+                appointment.getStatus().name(),
+                appointment.getDescription());
     }
 
     public List<AppointmentDto> findByClientId(Long clientId) {
@@ -77,8 +79,52 @@ public class AppointmentService {
         appointment.setTrainer(trainer);
         appointment.setDate(appointmentCreateDto.getDate());
         appointment.setStatus(Appointment.Status.PENDING);
+        appointment.setDescription(appointmentCreateDto.getDescription());
 
         return appointmentRepository.save(appointment);
     }
+
+    @Transactional
+    public void deleteAppointment(Long appointmentId, Long trainerId) {
+        // Znalezienie wizyty
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
+
+        // Sprawdzenie, czy wizyta należy do zalogowanego trenera
+        if (!appointment.getTrainer().getId().equals(trainerId)) {
+            throw new IllegalArgumentException("You are not authorized to delete this appointment");
+        }
+
+        // Usunięcie wizyty
+        appointmentRepository.delete(appointment);
+    }
+
+    @Transactional
+    public Appointment updateAppointment(Long appointmentId, Map<String, Object> updates, Long trainerId) {
+        // Znalezienie wizyty
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
+
+        // Sprawdzenie, czy wizyta należy do zalogowanego trenera
+        if (!appointment.getTrainer().getId().equals(trainerId)) {
+            throw new IllegalArgumentException("You are not authorized to update this appointment");
+        }
+
+        // Aktualizacja pól na podstawie mapy updates
+        if (updates.containsKey("date")) {
+            appointment.setDate(LocalDateTime.parse((String) updates.get("date")));
+        }
+        if (updates.containsKey("status")) {
+            appointment.setStatus(Appointment.Status.valueOf((String) updates.get("status")));
+        }
+        if (updates.containsKey("description")) {
+            appointment.setDescription((String) updates.get("description"));
+        }
+
+        // Zapisanie zaktualizowanej wizyty
+        return appointmentRepository.save(appointment);
+    }
+
+
 }
 

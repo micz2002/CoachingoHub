@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -63,5 +64,42 @@ public class AppointmentController {
         Appointment appointment = appointmentService.createAppointment(appointmentCreateDto, trainer.getId());
         return ResponseEntity.ok(appointment);
     }
+
+    @PreAuthorize("hasRole('TRAINER')")
+    @DeleteMapping("/{appointmentId}")
+    public ResponseEntity<String> deleteAppointment(@PathVariable Long appointmentId) {
+        // Pobieranie zalogowanego użytkownika z SecurityContext
+        org.springframework.security.core.userdetails.User authenticatedUser =
+                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username = authenticatedUser.getUsername();
+        Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
+        Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
+
+        // Usunięcie wizyty
+        appointmentService.deleteAppointment(appointmentId, trainer.getId());
+        return ResponseEntity.ok("Appointment deleted successfully.");
+    }
+
+    @PreAuthorize("hasRole('TRAINER')")
+    @PatchMapping("/{appointmentId}")
+    public ResponseEntity<Appointment> updateAppointment(
+            @PathVariable Long appointmentId,
+            @RequestBody Map<String, Object> updates) {
+
+        // Pobieranie zalogowanego użytkownika z SecurityContext
+        org.springframework.security.core.userdetails.User authenticatedUser =
+                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username = authenticatedUser.getUsername();
+        Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
+        Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
+
+        // Aktualizacja wizyty
+        Appointment updatedAppointment = appointmentService.updateAppointment(appointmentId, updates, trainer.getId());
+        return ResponseEntity.ok(updatedAppointment);
+    }
+
+
 }
 

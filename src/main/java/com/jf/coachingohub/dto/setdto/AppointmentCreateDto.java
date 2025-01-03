@@ -13,6 +13,7 @@ public class AppointmentCreateDto {
     @NotNull
     @Future
     private LocalDateTime date;
+    private String description;
 
     // Gettery i Settery
     public String getClientUsername() {
@@ -29,5 +30,13 @@ public class AppointmentCreateDto {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -25,8 +25,14 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
+    //zmienna do określenia czy klient dostął juz przypomnienie o swoim treningu
+    // (potrzebna, aby nie zapętlić wysyłania powiadomień
     @Column(nullable = false)
     private boolean notified = false;
+
+    @Column(nullable = true)
+    private String description;
 
     // Getters and setters
 
@@ -82,5 +88,13 @@ public class Appointment {
 
     public void setNotified(boolean notified) {
         this.notified = notified;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
