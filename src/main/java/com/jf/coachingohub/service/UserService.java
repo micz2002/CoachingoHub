@@ -3,9 +3,11 @@ package com.jf.coachingohub.service;
 import com.jf.coachingohub.dto.getdto.UserDto;
 import com.jf.coachingohub.dto.setdto.UserAndTrainerRegisterDto;
 import com.jf.coachingohub.model.ActivationToken;
+import com.jf.coachingohub.model.Client;
 import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.model.User;
 import com.jf.coachingohub.repository.ActivationTokenRepository;
+import com.jf.coachingohub.repository.ClientRepository;
 import com.jf.coachingohub.repository.TrainerRepository;
 import com.jf.coachingohub.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,13 +30,15 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final ActivationTokenRepository activationTokenRepository;
     private final EmailService emailService;
+    private final ClientRepository clientRepository;
 
-    public UserService(UserRepository userRepository, TrainerRepository trainerRepository, PasswordEncoder passwordEncoder, ActivationTokenRepository activationTokenRepository, EmailService emailService) {
+    public UserService(UserRepository userRepository, TrainerRepository trainerRepository, PasswordEncoder passwordEncoder, ActivationTokenRepository activationTokenRepository, EmailService emailService, ClientRepository clientRepository) {
         this.userRepository = userRepository;
         this.trainerRepository = trainerRepository;
         this.passwordEncoder = passwordEncoder;
         this.activationTokenRepository = activationTokenRepository;
         this.emailService = emailService;
+        this.clientRepository = clientRepository;
     }
 
     private UserDto convertToDto(User user) {
@@ -173,5 +177,18 @@ public class UserService implements UserDetailsService {
         activationTokenRepository.delete(resetToken);
     }
 
+    @Transactional
+    public void deleteClient(Long clientId, Long trainerId) {
+        // Znalezienie klienta
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+
+        // Sprawdzenie, czy klient należy do zalogowanego trenera
+        if (!client.getTrainer().getId().equals(trainerId)) {
+            throw new IllegalArgumentException("Client does not belong to this trainer");
+        }
+
+        userRepository.delete(client.getUser());
+    }
 }
 

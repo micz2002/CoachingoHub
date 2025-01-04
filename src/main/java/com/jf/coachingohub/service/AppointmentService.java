@@ -39,6 +39,7 @@ public class AppointmentService {
                 appointment.getId(),
                 appointment.getClient().getId(),
                 appointment.getTrainer().getId(),
+                appointment.getClient().getUser().getUsername(),
                 appointment.getDate(),
                 appointment.getStatus().name(),
                 appointment.getDescription());

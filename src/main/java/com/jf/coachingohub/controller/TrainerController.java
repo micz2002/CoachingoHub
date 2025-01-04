@@ -7,6 +7,7 @@ import com.jf.coachingohub.model.Client;
 import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.service.ClientService;
 import com.jf.coachingohub.service.TrainerService;
+import com.jf.coachingohub.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +22,12 @@ public class TrainerController {
 
     private final TrainerService trainerService;
     private final ClientService clientService;
+    private final UserService userService;
 
-    public TrainerController(TrainerService trainerService, ClientService clientService) {
+    public TrainerController(TrainerService trainerService, ClientService clientService, UserService userService) {
         this.trainerService = trainerService;
         this.clientService = clientService;
+        this.userService = userService;
     }
 
     //utworzyc frontend tylko jesli przydatny
@@ -83,6 +86,21 @@ public class TrainerController {
                 .orElseThrow(() -> new RuntimeException("Client not found"));
 
         return ResponseEntity.ok(clientDto);
+    }
+
+    @DeleteMapping("/clients/{clientId}")
+    public ResponseEntity<String> deleteClient(@PathVariable Long clientId) {
+        // Pobieranie zalogowanego użytkownika z SecurityContext
+        org.springframework.security.core.userdetails.User authenticatedUser =
+                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username = authenticatedUser.getUsername();
+        Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
+        Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
+
+        // Usunięcie klienta
+        userService.deleteClient(clientId, trainer.getId());
+        return ResponseEntity.ok("Client deleted successfully.");
     }
 
 

@@ -90,5 +90,8 @@ public class ClientService {
         return clientRepository.findById(clientId)
                 .map(this::convertToDto);
     }
+
+
+
 }
 

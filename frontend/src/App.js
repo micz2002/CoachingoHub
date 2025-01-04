@@ -23,8 +23,16 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-           <Route
+        <Route
           path="/clients/:id"
+          element={
+            <ProtectedRoute requiredRole="ROLE_TRAINER">
+              <ClientDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="trainer-appointments"
           element={
             <ProtectedRoute requiredRole="ROLE_TRAINER">
               <ClientDetails />

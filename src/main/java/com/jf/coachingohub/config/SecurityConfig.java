@@ -2,6 +2,7 @@ package com.jf.coachingohub.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -29,7 +30,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable()) // Wyłączenie CSRF
                 .cors(Customizer.withDefaults()) // Włączenie CORS (konfiguracja w WebConfig)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login",
+                        .requestMatchers( "/api/login",
                                 "/api/users/**", "/api/test-sms" /*te 2 ostatnie do usuniecia*/).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/trainers/**")).hasRole("TRAINER")
                         .requestMatchers(new AntPathRequestMatcher("/api/clients/**")).hasRole("CLIENT")// Endpointy publiczne

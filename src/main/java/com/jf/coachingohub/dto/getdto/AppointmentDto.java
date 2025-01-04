@@ -7,14 +7,17 @@ public class AppointmentDto {
     private Long id;
     private Long clientId;
     private Long trainerId;
+
+    private String clientUsername;
     private LocalDateTime date;
     private String status;
     private String description;
 
-    public AppointmentDto(Long id, Long clientId, Long trainerId, LocalDateTime date, String status, String description) {
+    public AppointmentDto(Long id, Long clientId, Long trainerId, String clientUsername, LocalDateTime date, String status, String description) {
         this.id = id;
         this.clientId = clientId;
         this.trainerId = trainerId;
+        this.clientUsername = clientUsername;
         this.date = date;
         this.status = status;
         this.description = description;
@@ -67,6 +70,14 @@ public class AppointmentDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getClientUsername() {
+        return clientUsername;
+    }
+
+    public void setClientUsername(String clientUsername) {
+        this.clientUsername = clientUsername;
     }
 }
 

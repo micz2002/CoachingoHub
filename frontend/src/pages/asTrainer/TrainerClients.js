@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 const TrainerClients = () => {
   const [clients, setClients] = useState([]);
   const [open, setOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [clientToDelete, setClientToDelete] = useState(null);
   const [newClient, setNewClient] = useState({
     username: "",
     password: "",
@@ -67,6 +69,35 @@ const TrainerClients = () => {
     }
   };
 
+  const openDeleteModal = (client) => {
+    setClientToDelete(client);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setClientToDelete(null);
+    setIsDeleteModalOpen(false);
+  };
+
+  const confirmDeleteClient = async () => {
+    if (clientToDelete) {
+      try {
+        await axios.delete(`http://localhost:8080/api/trainers/clients/${clientToDelete.id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        });
+        setClients(clients.filter((client) => client.id !== clientToDelete.id)); // Usuń lokalnie
+        closeDeleteModal(); // Zamknij modal po usunięciu
+      } catch (err) {
+        console.error("Error deleting client", err);
+      }
+    }
+  };
+
+  
+
+
   useEffect(() => {
     fetchClients();
   }, []);
@@ -107,8 +138,17 @@ const TrainerClients = () => {
                     variant="outlined"
                     color="primary"
                     onClick={() => navigate(`/clients/${client.id}`)}
+                    style={{ marginRight: "10px" }}
                   >
                     Szczegóły
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => openDeleteModal(client)}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Usuń
                   </Button>
                 </TableCell>
               </TableRow>
@@ -117,115 +157,159 @@ const TrainerClients = () => {
         </Table>
       </TableContainer>
 
-      <Modal open={open} onClose={handleClose}>
+      {isDeleteModalOpen && (
         <Box
           style={{
-            position: "absolute",
+            position: "fixed",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
             backgroundColor: "white",
             padding: "20px",
             borderRadius: "10px",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            zIndex: 1000,
           }}
         >
           <Typography variant="h6" gutterBottom>
-            Dodaj nowego klienta
+            Czy na pewno chcesz usunąć klienta {clientToDelete?.firstName} {clientToDelete?.lastName}?
           </Typography>
-          <form>
-            <TextField
-              label="Nazwa użytkownika"
-              name="username"
-              fullWidth
-              margin="normal"
-              value={newClient.username}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label="Hasło"
-              name="password"
-              type="password"
-              fullWidth
-              margin="normal"
-              value={newClient.password}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label="Imię"
-              name="firstName"
-              fullWidth
-              margin="normal"
-              value={newClient.firstName}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label="Nazwisko"
-              name="lastName"
-              fullWidth
-              margin="normal"
-              value={newClient.lastName}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label="Email"
-              name="email"
-              type="email"
-              fullWidth
-              margin="normal"
-              value={newClient.email}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label="Phone Number"
-              name="phoneNumber"
-              type="text"
-              fullWidth
-              margin="normal"
-              value={newClient.phoneNumber}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label="Wiek"
-              name="age"
-              type="number"
-              fullWidth
-              margin="normal"
-              value={newClient.age}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label="Waga (kg)"
-              name="weight"
-              type="number"
-              fullWidth
-              margin="normal"
-              value={newClient.weight}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label="Wzrost (cm)"
-              name="height"
-              type="number"
-              fullWidth
-              margin="normal"
-              value={newClient.height}
-              onChange={handleInputChange}
-            />
+          <Box display="flex" justifyContent="space-between" mt={2}>
             <Button
               variant="contained"
               color="primary"
-              fullWidth
-              onClick={handleAddClient}
-              style={{ marginTop: "20px" }}
+              onClick={confirmDeleteClient}
             >
-              Dodaj klienta
+              Tak
             </Button>
-          </form>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={closeDeleteModal}
+            >
+              Nie
+            </Button>
+          </Box>
         </Box>
-      </Modal>
+      )}
+
+      <Modal open={open} onClose={handleClose}>
+  <Box
+    style={{
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      backgroundColor: "white",
+      padding: "15px", // Zmniejszony padding
+      borderRadius: "10px",
+      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+      zIndex: 1000,
+      maxWidth: "60%", // Zmniejszona szerokość
+      maxHeight: "80%", // Zmniejszona wysokość
+      overflowY: "auto",
+    }}
+  >
+    <Typography variant="h6" gutterBottom align="center">
+      Dodaj nowego klienta
+    </Typography>
+    <form>
+      <TextField
+        label="Nazwa użytkownika"
+        name="username"
+        fullWidth
+        margin="dense" // Zmniejszone odstępy między polami
+        value={newClient.username}
+        onChange={handleInputChange}
+      />
+      <TextField
+        label="Hasło"
+        name="password"
+        type="password"
+        fullWidth
+        margin="dense"
+        value={newClient.password}
+        onChange={handleInputChange}
+      />
+      <TextField
+        label="Imię"
+        name="firstName"
+        fullWidth
+        margin="dense"
+        value={newClient.firstName}
+        onChange={handleInputChange}
+      />
+      <TextField
+        label="Nazwisko"
+        name="lastName"
+        fullWidth
+        margin="dense"
+        value={newClient.lastName}
+        onChange={handleInputChange}
+      />
+      <TextField
+        label="Email"
+        name="email"
+        type="email"
+        fullWidth
+        margin="dense"
+        value={newClient.email}
+        onChange={handleInputChange}
+      />
+      <TextField
+        label="Phone Number"
+        name="phoneNumber"
+        type="text"
+        fullWidth
+        margin="dense"
+        value={newClient.phoneNumber}
+        onChange={handleInputChange}
+      />
+      <TextField
+        label="Wiek"
+        name="age"
+        type="number"
+        fullWidth
+        margin="dense"
+        value={newClient.age}
+        onChange={handleInputChange}
+      />
+      <TextField
+        label="Waga (kg)"
+        name="weight"
+        type="number"
+        fullWidth
+        margin="dense"
+        value={newClient.weight}
+        onChange={handleInputChange}
+      />
+      <TextField
+        label="Wzrost (cm)"
+        name="height"
+        type="number"
+        fullWidth
+        margin="dense"
+        value={newClient.height}
+        onChange={handleInputChange}
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={handleAddClient}
+        style={{
+          marginTop: "15px", // Zmniejszony odstęp
+          padding: "10px", // Zmniejszony padding przycisku
+        }}
+      >
+        Dodaj klienta
+      </Button>
+    </form>
+  </Box>
+</Modal>
+
     </Box>
+
   );
 };
 
