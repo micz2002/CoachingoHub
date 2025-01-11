@@ -2,11 +2,14 @@ package com.jf.coachingohub.controller;
 
 import com.jf.coachingohub.dto.getdto.ClientDto;
 import com.jf.coachingohub.model.Client;
+import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.service.ClientService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -28,6 +31,9 @@ public class ClientController {
         }
         return ResponseEntity.ok(clients);
     }
+
+
+
 
 }
 

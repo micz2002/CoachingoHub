@@ -5,6 +5,9 @@ import TrainerClients from "./TrainerClients";
 import { useNavigate } from "react-router-dom";
 import { red } from "@mui/material/colors";
 import TrainerAppointments from "./TrainerAppointments";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import WeeklyAppointmentsChart from "./WeeklyAppointmentsChart";
+
 
 const TrainerDashboard = () => {
   const [trainerInfo, setTrainerInfo] = useState({ id: null, firstName: "", lastName: "", username: "" });
@@ -115,7 +118,7 @@ const TrainerDashboard = () => {
   };
 
   const calculateTodayAppointments = (appointments) => {
-    const today = new Date().toISOString().split("T")[0]; // Dzisiejsza data w formacie YYYY-MM-DD
+    const today = new Date().toISOString().split("T")[0];
     const todayAppointments = appointments.filter((appointment) =>
       appointment.date.startsWith(today)
     );
@@ -140,7 +143,7 @@ const TrainerDashboard = () => {
                   marginRight: "20px",
                 }}
               >
-                <Typography variant="h6">Liczba klientów</Typography>
+                <Typography variant="h6" style={{fontWeight: "bold"}} >Liczba klientów</Typography>
                 <Typography variant="h4">{clientCount}</Typography>
               </Box>
               <Box
@@ -154,7 +157,7 @@ const TrainerDashboard = () => {
                   marginRight: "20px",
                 }}
               >
-                <Typography variant="h6">Liczba wizyt</Typography>
+                <Typography variant="h6" style={{fontWeight: "bold"}} >Obecnie umówione treningi</Typography>
                 <Typography variant="h4">{appointmentCount}</Typography>
               </Box>
               <Box
@@ -167,10 +170,11 @@ const TrainerDashboard = () => {
                   width: "30%",
                 }}
               >
-                <Typography variant="h6">Wizyty na dzisiaj</Typography>
+                <Typography variant="h6" style={{fontWeight: "bold"}} >Treningi na dzisiaj</Typography>
                 <Typography variant="h4">{todayAppointmentCount}</Typography>
               </Box>
             </Box>
+            <WeeklyAppointmentsChart />
           </>
         );
 
@@ -235,7 +239,7 @@ const TrainerDashboard = () => {
           }}
         >
           <Typography variant="body2" color="textSecondary" >
-            &copy; 2024 CoachingoHub. Wszelkie prawa zastrzeżone.
+            &copy; 2024 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
           </Typography>
         </Box>
       </Box>

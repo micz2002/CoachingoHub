@@ -11,7 +11,11 @@ import com.jf.coachingohub.repository.TrainerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import java.util.Map;
@@ -127,5 +131,28 @@ public class AppointmentService {
     }
 
 
+    public Map<String, Integer> countAppointmentsThisWeekForTrainer(Long trainerId) {
+        // Obliczenie początku i konća bieżącego tygodnia
+        LocalDateTime startOfWeek = LocalDate.now().with(DayOfWeek.MONDAY).atStartOfDay();
+        LocalDateTime endOfWeek = startOfWeek.plusDays(6).with(LocalTime.MAX);
+
+        // Pobranie wizyt w tym tygodniu
+        List<Appointment> appointments = appointmentRepository.findByTrainerIdAndDateBetween(trainerId, startOfWeek, endOfWeek);
+
+        // Inicjacja mapy dla każdego dnia tygodnia
+        Map<String, Integer> appointmentsByDay = new LinkedHashMap<>();
+        for (int i = 0; i < 7; i++) {
+            LocalDate day = startOfWeek.toLocalDate().plusDays(i);
+            appointmentsByDay.put(day.toString(), 0);
+        }
+
+        // Zliczanie wizyt dla każdego dnia
+        for (Appointment appointment : appointments) {
+            String day = appointment.getDate().toLocalDate().toString();
+            appointmentsByDay.put(day, appointmentsByDay.get(day) + 1);
+        }
+
+        return appointmentsByDay;
+    }
 }
 

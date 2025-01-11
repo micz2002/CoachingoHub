@@ -122,7 +122,7 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if(!user.isActive()) {
+        if (!user.isActive()) {
             throw new IllegalStateException("Account is not active. Please check your email for activation link.");
         }
         return user;
@@ -148,9 +148,12 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void generatePasswordResetToken(String email) {
+    public void generatePasswordResetToken(String email, String resetUsername) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
+
+        if (!user.getUsername().equals(resetUsername))
+            throw new IllegalArgumentException("User with this email doesn't exist");
 
         String token = UUID.randomUUID().toString();
         ActivationToken resetToken = new ActivationToken();
@@ -161,8 +164,9 @@ public class UserService implements UserDetailsService {
         String resetLink = "http://localhost:8080/api/users/reset-password?token=" + token;
         emailService.sendEmail("coachingo.hub.testing@gmail.com", "Reset your password",
                 "<p>Hello, " + user.getFirstName() + "!</p>" +
-                        "<p>Click the link below to reset your password:</p>" +
-                        "<a href='" + resetLink + "'>Reset Password</a>");
+                        "<p>Click the link below to check your token:</p>" +
+                        "<a href='" + resetLink + "'>Reset Password</a>" +
+                        "<p>Or just copy token from here: " + token + " </p>")  ;
     }
 
     @Transactional
@@ -175,6 +179,11 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
 
         activationTokenRepository.delete(resetToken);
+    }
+
+    public void verifyResetToken(String token) {
+        activationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid or expired reset token"));
     }
 
     @Transactional
@@ -191,4 +200,3 @@ public class UserService implements UserDetailsService {
         userRepository.delete(client.getUser());
     }
 }
-

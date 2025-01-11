@@ -283,8 +283,9 @@ const ClientDetails = () => {
             <Typography><strong>Nazwa użytkownika:</strong> {client.username}</Typography>
             <Typography><strong>Imię:</strong> {client.firstName}</Typography>
             <Typography><strong>Nazwisko:</strong> {client.lastName}</Typography>
-            <Typography><strong>Waga:</strong> {client.weight} kg</Typography>
-            <Typography><strong>Wzrost:</strong> {client.height} cm</Typography>
+            <Typography><strong>Telefon:</strong> {client.phoneNumber}</Typography>
+            <Typography><strong>Waga:</strong> {client.weight}&nbsp;kg&nbsp;</Typography>
+            <Typography><strong>Wzrost:</strong> {client.height}&nbsp;cm&nbsp;</Typography>
             <Typography><strong>Wiek:</strong> {client.age} </Typography>
           </Box>
 

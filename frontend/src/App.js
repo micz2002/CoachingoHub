@@ -6,6 +6,7 @@ import TrainerDashboard from "./pages/asTrainer/TrainerDashboard";
 import ClientDashboard from "./pages/AsClient/ClientDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ClientDetails from "./pages/asTrainer/ClientDetails";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<RegisterTrainer />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* Trasa chroniona dla trenera */}
         <Route

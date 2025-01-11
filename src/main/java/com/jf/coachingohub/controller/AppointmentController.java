@@ -100,6 +100,19 @@ public class AppointmentController {
         return ResponseEntity.ok(updatedAppointment);
     }
 
+    @GetMapping("/appointments-this-week")
+    public ResponseEntity<Map<String, Integer>> getAppointmentsForThisWeek() {
+        // Pobieranie zalogowanego użytkownika z SecurityContext
+        org.springframework.security.core.userdetails.User authenticatedUser =
+                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username = authenticatedUser.getUsername();
+        Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
+        Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
+
+        Map<String, Integer> appointmentsByDay = appointmentService.countAppointmentsThisWeekForTrainer(trainer.getId());
+        return ResponseEntity.ok(appointmentsByDay);
+    }
 
 }
 

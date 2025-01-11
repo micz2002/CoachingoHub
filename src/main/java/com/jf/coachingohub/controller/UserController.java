@@ -76,10 +76,20 @@ public class UserController {
 
     //TODO DOROBIC FRONTA Z RESETEM HASLA
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> requestPasswordReset(@RequestParam String email) {
+    public ResponseEntity<String> requestPasswordReset(@RequestParam String email, @RequestParam String resetUsername) {
         try {
-            userService.generatePasswordResetToken(email);
+            userService.generatePasswordResetToken(email, resetUsername);
             return ResponseEntity.ok("Password reset link sent to your email.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/reset-password")
+    public ResponseEntity<String> verifyResetToken(@RequestParam String token) {
+        try {
+            userService.verifyResetToken(token);
+            return ResponseEntity.ok("Your token: " + token);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -94,6 +104,5 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
 }
