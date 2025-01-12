@@ -1,7 +1,9 @@
 package com.jf.coachingohub.service;
 
 import com.jf.coachingohub.dto.getdto.TrainerDto;
+import com.jf.coachingohub.model.Client;
 import com.jf.coachingohub.model.Trainer;
+import com.jf.coachingohub.repository.ClientRepository;
 import com.jf.coachingohub.repository.TrainerRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,11 @@ import java.util.Optional;
 public class TrainerService {
 
     private final TrainerRepository trainerRepository;
+    private final ClientRepository clientRepository;
 
-    public TrainerService(TrainerRepository trainerRepository) {
+    public TrainerService(TrainerRepository trainerRepository, ClientRepository clientRepository) {
         this.trainerRepository = trainerRepository;
+        this.clientRepository = clientRepository;
     }
 
     public Trainer save(Trainer trainer) {
@@ -43,5 +47,22 @@ public class TrainerService {
     public Optional<TrainerDto> findDtoByUsername(String username) {
         return trainerRepository.findByUser_Username(username)
                 .map(this::convertToDto);
+    }
+
+    public Optional<TrainerDto> findDtoByClientUsername(String username) {
+        return trainerRepository.findByUser_Username(username)
+                .map(this::convertToDto);
+    }
+
+    public TrainerDto findTrainerDtoByClientUsername(String username) {
+        Client client = clientRepository.findByUser_Username(username)
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+
+        Trainer trainer = client.getTrainer();
+        if (trainer == null) {
+            throw new RuntimeException("No trainer assigned to this client");
+        }
+
+        return convertToDto(trainer);
     }
 }

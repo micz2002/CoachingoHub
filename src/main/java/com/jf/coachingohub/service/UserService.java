@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -199,4 +200,23 @@ public class UserService implements UserDetailsService {
 
         userRepository.delete(client.getUser());
     }
+
+    @Transactional
+    public void updateAccount(String username, Map<String, String> updates) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (updates.containsKey("email")) {
+            user.setEmail(updates.get("email"));
+        }
+        if (updates.containsKey("phoneNumber")) {
+            user.setPhoneNumber(updates.get("phoneNumber"));
+        }
+        if (updates.containsKey("weight")) {
+            user.getClient().setWeight(Float.valueOf(updates.get("weight")));
+        }
+
+        userRepository.save(user);
+    }
+
 }

@@ -1,17 +1,19 @@
 package com.jf.coachingohub.controller;
 
+import com.jf.coachingohub.dto.getdto.ClientDto;
 import com.jf.coachingohub.dto.getdto.TrainerDto;
 import com.jf.coachingohub.dto.getdto.UserDto;
 import com.jf.coachingohub.dto.setdto.UserAndTrainerRegisterDto;
-import com.jf.coachingohub.model.ActivationToken;
 import com.jf.coachingohub.model.User;
-import com.jf.coachingohub.repository.ActivationTokenRepository;
+import com.jf.coachingohub.service.ClientService;
 import com.jf.coachingohub.service.TrainerService;
 import com.jf.coachingohub.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -20,10 +22,12 @@ public class UserController {
 
     private final UserService userService;
     private final TrainerService trainerService;
+    private final ClientService clientService;
 
-    public UserController(UserService userService, TrainerService trainerService) {
+    public UserController(UserService userService, TrainerService trainerService, ClientService clientService) {
         this.userService = userService;
         this.trainerService = trainerService;
+        this.clientService = clientService;
     }
 
     //utworzyc frontend tylko jesli przydatny
@@ -35,6 +39,11 @@ public class UserController {
         if (userDto.getRole().equals("TRAINER")) {
             Optional<TrainerDto> trainerDto = trainerService.findDtoByUsername(username);
             return ResponseEntity.ok(trainerDto);
+        }
+
+        if (userDto.getRole().equals("CLIENT")) {
+            Optional<ClientDto> clientDto = clientService.findDtoByUsername(username);
+            return ResponseEntity.ok(clientDto);
         }
 
         return ResponseEntity.ok(userDto);
@@ -104,5 +113,21 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PatchMapping
+    public ResponseEntity<String> updateAccount(@RequestBody Map<String, String> updates) {
+        try {
+            org.springframework.security.core.userdetails.User authenticatedUser =
+                    (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            String username = authenticatedUser.getUsername();
+            userService.updateAccount(username, updates);
+            return ResponseEntity.ok("Account updated successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
 
 }

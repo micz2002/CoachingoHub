@@ -221,7 +221,7 @@ const TrainerDashboard = () => {
             >
               <Tab label="Dashboard" />
               <Tab label="Lista klientów" />
-              <Tab label="Wizyty" />
+              <Tab label="Harmonogram spotkań" />
             </Tabs>
           </Box>
 

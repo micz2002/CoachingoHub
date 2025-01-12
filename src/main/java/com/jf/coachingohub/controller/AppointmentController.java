@@ -81,22 +81,13 @@ public class AppointmentController {
         return ResponseEntity.ok("Appointment deleted successfully.");
     }
 
-    @PreAuthorize("hasRole('TRAINER')")
+    //@PreAuthorize("hasRole('TRAINER')")
     @PatchMapping("/{appointmentId}")
     public ResponseEntity<Appointment> updateAppointment(
             @PathVariable Long appointmentId,
             @RequestBody Map<String, Object> updates) {
-
-        // Pobieranie zalogowanego użytkownika z SecurityContext
-        org.springframework.security.core.userdetails.User authenticatedUser =
-                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        String username = authenticatedUser.getUsername();
-        Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
-        Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
-
         // Aktualizacja wizyty
-        Appointment updatedAppointment = appointmentService.updateAppointment(appointmentId, updates, trainer.getId());
+        Appointment updatedAppointment = appointmentService.updateAppointment(appointmentId, updates);
         return ResponseEntity.ok(updatedAppointment);
     }
 

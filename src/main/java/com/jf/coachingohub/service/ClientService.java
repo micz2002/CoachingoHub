@@ -1,5 +1,6 @@
 package com.jf.coachingohub.service;
 
+import com.jf.coachingohub.dto.getdto.TrainerDto;
 import com.jf.coachingohub.dto.setdto.ClientCreateDto;
 import com.jf.coachingohub.dto.getdto.ClientDto;
 import com.jf.coachingohub.model.Client;
@@ -56,6 +57,11 @@ public class ClientService {
                 .collect(Collectors.toList());
     }
 
+    public Optional<ClientDto> findDtoByUsername(String username) {
+        return clientRepository.findByUser_Username(username)
+                .map(this::convertToDto);
+    }
+
     @Transactional
     public Client createClient(ClientCreateDto clientCreateDto, Long trainerId) {
         // Szukanie trenera w bazie
@@ -90,8 +96,6 @@ public class ClientService {
         return clientRepository.findById(clientId)
                 .map(this::convertToDto);
     }
-
-
 
 }
 

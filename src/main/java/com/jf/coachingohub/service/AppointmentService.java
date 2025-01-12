@@ -105,15 +105,10 @@ public class AppointmentService {
     }
 
     @Transactional
-    public Appointment updateAppointment(Long appointmentId, Map<String, Object> updates, Long trainerId) {
+    public Appointment updateAppointment(Long appointmentId, Map<String, Object> updates) {
         // Znalezienie wizyty
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
-
-        // Sprawdzenie, czy wizyta należy do zalogowanego trenera
-        if (!appointment.getTrainer().getId().equals(trainerId)) {
-            throw new IllegalArgumentException("You are not authorized to update this appointment");
-        }
 
         // Aktualizacja pól na podstawie mapy updates
         if (updates.containsKey("date")) {
