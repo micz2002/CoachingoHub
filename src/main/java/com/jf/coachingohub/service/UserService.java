@@ -215,6 +215,12 @@ public class UserService implements UserDetailsService {
         if (updates.containsKey("weight")) {
             user.getClient().setWeight(Float.valueOf(updates.get("weight")));
         }
+        if (updates.containsKey("specialization")) {
+            user.getTrainer().setSpecialization(updates.get("specialization"));
+        }
+        if (updates.containsKey("experience")) {
+            user.getTrainer().setExperience(Integer.valueOf(updates.get("experience")));
+        }
 
         userRepository.save(user);
     }

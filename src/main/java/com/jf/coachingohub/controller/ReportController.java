@@ -33,8 +33,8 @@ public class ReportController {
     }
 
     @GetMapping("/trainer/{trainerId}")
-    public ResponseEntity<List<Report>> getReportsByTrainer(@PathVariable Long trainerId) {
-        List<Report> reports = reportService.getReportsByTrainer(trainerId);
+    public ResponseEntity<List<ReportDto>> getReportsByTrainer(@PathVariable Long trainerId) {
+        List<ReportDto> reports = reportService.getReportsByTrainer(trainerId);
         return ResponseEntity.ok(reports);
     }
 

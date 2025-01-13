@@ -44,6 +44,10 @@ public class ReportDto {
 
         private String additionalNotes;
 
+        private String clientFirstName;
+
+        private String clientLastName;
+
     public Long getId() {
         return id;
     }
@@ -202,5 +206,21 @@ public class ReportDto {
 
     public void setAdditionalNotes(String additionalNotes) {
         this.additionalNotes = additionalNotes;
+    }
+
+    public String getClientFirstName() {
+        return clientFirstName;
+    }
+
+    public void setClientFirstName(String clientFirstName) {
+        this.clientFirstName = clientFirstName;
+    }
+
+    public String getClientLastName() {
+        return clientLastName;
+    }
+
+    public void setClientLastName(String clientLastName) {
+        this.clientLastName = clientLastName;
     }
 }

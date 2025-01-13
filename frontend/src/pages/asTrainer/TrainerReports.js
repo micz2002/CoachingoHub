@@ -14,9 +14,11 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-const ClientReports = () => {
+const TrainerReports = () => {
   const [reports, setReports] = useState([]);
   const [newReport, setNewReport] = useState({
+    clientFirstName: "",
+    clientLastName: "",
     title: "",
     dateFilled: "",
     weightMeasurement: "",
@@ -37,27 +39,6 @@ const ClientReports = () => {
     dietAdherence: "",
     additionalNotes: "",
   });
-  const fieldLabels = {
-    title: "Tytuł",
-    dateFilled: "Data wypełnienia",
-    weightMeasurement: "Pomiar wagi (kg)",
-    waistMeasurement: "Pomiar talii (cm)",
-    chestMeasurement: "Pomiar klatki (cm)",
-    leftBicepMeasurement: "Pomiar lewego bicepsa (cm)",
-    rightBicepMeasurement: "Pomiar prawego bicepsa (cm)",
-    leftForearmMeasurement: "Pomiar lewego przedramienia (cm)",
-    rightForearmMeasurement: "Pomiar prawego przedramienia (cm)",
-    leftThighMeasurement: "Pomiar lewego uda (cm)",
-    rightThighMeasurement: "Pomiar prawego uda (cm)",
-    leftCalfMeasurement: "Pomiar lewej łydki (cm)",
-    rightCalfMeasurement: "Pomiar prawej łydki (cm)",
-    weeklyWorkouts: "Ilość treningów w tygodniu",
-    weeklyCardio: "Ilość cardio w tygodniu",
-    trainingProgress: "Progres na treningach",
-    sleepQuality: "Jakość snu",
-    dietAdherence: "Przestrzeganie diety",
-    additionalNotes: "Dodatkowe uwagi",
-  };
   const [message, setMessage] = useState("");
 
   // Pobieranie raportów klienta
@@ -66,7 +47,7 @@ const ClientReports = () => {
       const loggedInUsername = localStorage.getItem("loggedInUser");
       console.log("Fetching client details for username:", loggedInUsername);
 
-      const clientResponse = await axios.get(
+      const trainerResponse = await axios.get(
         `http://localhost:8080/api/users/${loggedInUsername}`,
         {
           headers: {
@@ -74,13 +55,13 @@ const ClientReports = () => {
           },
         }
       );
-      console.log("Client Details Response:", clientResponse.data);
+      console.log("Client Details Response:", trainerResponse.data);
 
-      const clientId = clientResponse.data.id;
-      console.log("Fetching reports for client ID:", clientId);
+      const trainerId = trainerResponse.data.id;
+      console.log("Fetching reports for client ID:", trainerId);
 
       const reportsResponse = await axios.get(
-        `http://localhost:8080/api/reports/client/${clientId}`,
+        `http://localhost:8080/api/reports/trainer/${trainerId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
@@ -107,26 +88,8 @@ const ClientReports = () => {
     }
   }, []);
 
-  // Dodawanie nowego raportu
-  const handleAddReport = async () => {
-    try {
-      console.log("Adding new report:", newReport);
-
-      await axios.post("http://localhost:8080/api/reports", newReport, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-        },
-      });
-      setMessage("Raport został pomyślnie dodany.");
-      fetchReports(); // Odśwież listę raportów
-    } catch (err) {
-      console.error("Error adding report:", err);
-      setMessage("Nie udało się dodać raportu. Spróbuj ponownie.");
-    }
-  };
-
   // Pobieranie raportu jako DOCX
-  const handleDownloadReport = async (reportId, reportTitle) => {
+  const handleDownloadReport = async (reportId, reportTitle, clientFirstName, clientLastName) => {
     if (!reportId) {
       console.error("Invalid report ID");
       return;
@@ -151,7 +114,7 @@ const ClientReports = () => {
         }
       );
       // Generowanie unikalnej nazwy pliku
-      const fileName = `${reportTitle || "Raport"}_${new Date().toISOString().split("T")[0]}.docx`;
+      const fileName = `${clientFirstName}_${clientLastName}_${reportTitle || "Raport"}_${new Date().toISOString().split("T")[0]}.docx`;
 
       // Tworzenie pliku do pobrania
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -170,102 +133,19 @@ const ClientReports = () => {
 
     <Box>
       <Typography variant="h5" gutterBottom align="center">
-        Zarządzanie Raportami
+        Lista Raportów
       </Typography>
 
       {message && <Typography color="primary">{message}</Typography>}
 
-      {/* Formularz dodawania nowego raportu */}
-      <Box mt={3} mb={3}>
-        <Typography variant="h6">Dodaj Nowy Raport</Typography>
-
-
-        {Object.keys(newReport).map((key) => {
-          const label = fieldLabels[key] || key;
-
-          if (key === "dateFilled") {
-            // Obsługa pola daty
-            return (
-              <TextField
-                key={key}
-                label="Data wypełnienia"
-                type="date"
-                fullWidth
-                margin="normal"
-                InputLabelProps={{
-                  shrink: true, // Pozwala wyświetlać label przy polu daty
-                }}
-                value={newReport[key]}
-                onChange={(e) =>
-                  setNewReport({ ...newReport, [key]: e.target.value })
-                }
-              />
-            );
-          } else if (
-            [
-              "weightMeasurement",
-              "waistMeasurement",
-              "chestMeasurement",
-              "leftBicepMeasurement",
-              "rightBicepMeasurement",
-              "leftForearmMeasurement",
-              "rightForearmMeasurement",
-              "leftThighMeasurement",
-              "rightThighMeasurement",
-              "leftCalfMeasurement",
-              "rightCalfMeasurement",
-            ].includes(key)
-          ) {
-            // Obsługa pól liczbowych
-            return (
-              <TextField
-                key={key}
-                label={label}
-                type="number"
-                fullWidth
-                margin="normal"
-                value={newReport[key]}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (!isNaN(value) && Number(value) >= 0) {
-                    setNewReport({ ...newReport, [key]: value });
-                  }
-                }}
-              />
-            );
-          } else {
-            // Obsługa pozostałych pól
-            return (
-              <TextField
-                key={key}
-                label={label}
-                fullWidth
-                margin="normal"
-                value={newReport[key]}
-                onChange={(e) =>
-                  setNewReport({ ...newReport, [key]: e.target.value })
-                }
-              />
-            );
-          }
-        })}
-
-
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={handleAddReport}
-        >
-          Dodaj Raport
-        </Button>
-      </Box>
+     
       {/* Lista raportów */}
       <Typography variant="h6">Twoje Raporty</Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell>Imię i nazwisko</TableCell>  
               <TableCell>Tytuł</TableCell>
               <TableCell>Data</TableCell>
               <TableCell>Akcja</TableCell>
@@ -275,13 +155,14 @@ const ClientReports = () => {
             {Array.isArray(reports) && reports.length > 0 ? (
               reports.map((report) => (
                 <TableRow key={report.id}>
+                   <TableCell>{report.clientFirstName} {report.clientLastName}</TableCell>
                   <TableCell>{report.title}</TableCell>
                   <TableCell>{new Date(report.dateFilled).toLocaleDateString()}</TableCell>
                   <TableCell>
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => handleDownloadReport(report.id, report.title)}
+                      onClick={() => handleDownloadReport(report.id, report.title, report.clientFirstName, report.clientLastName)}
                     >
                       Pobierz DOCX
                     </Button>
@@ -302,4 +183,4 @@ const ClientReports = () => {
   );
 };
 
-export default ClientReports;
+export default TrainerReports;

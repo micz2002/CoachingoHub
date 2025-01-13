@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, TextField, Button, Tabs, Tab } from "@mui/material";
 import axios from "axios";
 
-const AccountManager = () => {
+const TrainerAccountManager = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [error, setError] = useState("");
   const [tabIndex, setTabIndex] = useState(0); // 0: Szczegóły konta, 1: Edycja konta
@@ -10,7 +10,8 @@ const AccountManager = () => {
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [weight, setWeight] = useState("");
+  const [specialization, setSpecialization] = useState("");
+  const [experience, setExperience] = useState("");
 
   const fetchUserDetails = async () => {
     try {
@@ -41,7 +42,8 @@ const AccountManager = () => {
       const updates = {};
       if (email) updates.email = email;
       if (phoneNumber) updates.phoneNumber = phoneNumber;
-      if (weight) updates.weight = weight;
+      if (specialization) updates.specialization = specialization;
+      if (experience) updates.experience = experience;
 
       await axios.patch(
         "http://localhost:8080/api/users",
@@ -115,13 +117,10 @@ const AccountManager = () => {
             <strong>Nazwisko:</strong> {userDetails.lastName}
           </Typography>
           <Typography>
-            <strong>Wiek:</strong> {userDetails.age}
+            <strong>Specjalizacja:</strong> {userDetails.specialization}
           </Typography>
           <Typography>
-            <strong>Waga:</strong> {userDetails.weight}
-          </Typography>
-          <Typography>
-            <strong>Wzrost:</strong> {userDetails.height}
+            <strong>Doświadczenie:</strong> {userDetails.experience} lat
           </Typography>
           <Typography>
             <strong>Email:</strong> {userDetails.email}
@@ -136,25 +135,32 @@ const AccountManager = () => {
         <Box mt={3}>
           {message && <Typography color="primary">{message}</Typography>}
           <TextField
-            label="Nowy Email"
+            label="Zaktualizuj Adres Email"
             fullWidth
             margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
-            label="Nowy Numer Telefonu"
+            label="Zaktualizuj Numer Telefonu"
             fullWidth
             margin="normal"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
           <TextField
-            label="Nowa waga ciała"
+            label="Zaktualizuj Specjalizację"
             fullWidth
             margin="normal"
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
+            value={specialization}
+            onChange={(e) => setSpecialization(e.target.value)}
+          />
+          <TextField
+            label="Zaktualizuj Lata Doświadczenia"
+            fullWidth
+            margin="normal"
+            value={experience}
+            onChange={(e) => setExperience(e.target.value)}
           />
           <Button
             variant="contained"
@@ -171,4 +177,4 @@ const AccountManager = () => {
   );
 };
 
-export default AccountManager;
+export default TrainerAccountManager;

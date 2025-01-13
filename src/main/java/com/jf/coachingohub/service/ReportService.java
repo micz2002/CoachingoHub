@@ -75,6 +75,8 @@ public class ReportService {
     private ReportDto convertToDto(Report report) {
         ReportDto reportDto = new ReportDto();
         reportDto.setId(report.getId());
+        reportDto.setClientFirstName(report.getClient().getUser().getFirstName());
+        reportDto.setClientLastName(report.getClient().getUser().getLastName());
         reportDto.setTitle(report.getTitle());
         reportDto.setDateFilled(report.getDateFilled());
         reportDto.setWeightMeasurement(report.getWeightMeasurement());
@@ -99,8 +101,11 @@ public class ReportService {
 
 
 
-    public List<Report> getReportsByTrainer(Long trainerId) {
-        return reportRepository.findByTrainerId(trainerId);
+    public List<ReportDto> getReportsByTrainer(Long trainerId) {
+        return reportRepository.findByTrainerId(trainerId)
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
 
     }
 

@@ -7,6 +7,8 @@ import { red } from "@mui/material/colors";
 import TrainerAppointments from "./TrainerAppointments";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import WeeklyAppointmentsChart from "./WeeklyAppointmentsChart";
+import TrainerAccountManager from "./TrainerAccountManager";
+import TrainerReports from "./TrainerReports";
 
 
 const TrainerDashboard = () => {
@@ -108,7 +110,7 @@ const TrainerDashboard = () => {
           console.error("Error fetching today's appointments:", err);
         }
       };
-  
+
       fetchAndCalculateTodayAppointments();
     }
   }, [appointmentCount]);
@@ -143,7 +145,7 @@ const TrainerDashboard = () => {
                   marginRight: "20px",
                 }}
               >
-                <Typography variant="h6" style={{fontWeight: "bold"}} >Liczba klientów</Typography>
+                <Typography variant="h6" style={{ fontWeight: "bold" }} >Liczba klientów</Typography>
                 <Typography variant="h4">{clientCount}</Typography>
               </Box>
               <Box
@@ -157,7 +159,7 @@ const TrainerDashboard = () => {
                   marginRight: "20px",
                 }}
               >
-                <Typography variant="h6" style={{fontWeight: "bold"}} >Obecnie umówione treningi</Typography>
+                <Typography variant="h6" style={{ fontWeight: "bold" }} >Obecnie umówione treningi</Typography>
                 <Typography variant="h4">{appointmentCount}</Typography>
               </Box>
               <Box
@@ -170,7 +172,7 @@ const TrainerDashboard = () => {
                   width: "30%",
                 }}
               >
-                <Typography variant="h6" style={{fontWeight: "bold"}} >Treningi na dzisiaj</Typography>
+                <Typography variant="h6" style={{ fontWeight: "bold" }} >Treningi na dzisiaj</Typography>
                 <Typography variant="h4">{todayAppointmentCount}</Typography>
               </Box>
             </Box>
@@ -182,6 +184,10 @@ const TrainerDashboard = () => {
         return <TrainerClients />;
       case 2:
         return <TrainerAppointments trainerInfo={trainerInfo} />;
+      case 3:
+        return <TrainerReports />;
+      case 4:
+        return <TrainerAccountManager />;
       default:
         return <Typography>Nieznana zakładka</Typography>;
     }
@@ -222,6 +228,8 @@ const TrainerDashboard = () => {
               <Tab label="Dashboard" />
               <Tab label="Lista klientów" />
               <Tab label="Harmonogram spotkań" />
+              <Tab label="Raporty" />
+              <Tab label="Zarządzanie kontem" />
             </Tabs>
           </Box>
 

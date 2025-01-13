@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ClientWorkouts from "./ClientWorkouts";
 import ClientAppointments from "./ClientAppointments";
-import AccountManager from "./AccountManager";
+import ClientAccountManager from "./ClientAccountManager";
 import ClientReports from "./ClientReports";
 
 const ClientDashboard = () => {
@@ -94,7 +94,7 @@ const ClientDashboard = () => {
         case 3:
         return <ClientReports />;
       case 4:
-        return <AccountManager />;
+        return <ClientAccountManager />;
 
       default:
         return <Typography>Nieznana zakładka</Typography>;
