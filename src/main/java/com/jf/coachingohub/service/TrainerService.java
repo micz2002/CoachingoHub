@@ -39,6 +39,10 @@ public class TrainerService {
                 .map(this::convertToDto);
     }
 
+    public Optional<Trainer> findById(Long id) {
+        return trainerRepository.findById(id);
+    }
+
     public Optional<Trainer> findByUsername(String username) {
         return Optional.ofNullable(trainerRepository.findByUser_Username(username)
                 .orElseThrow(() -> new RuntimeException("Trainer not found")));

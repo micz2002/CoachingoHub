@@ -4,8 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ClientWorkouts from "./ClientWorkouts";
 import ClientAppointments from "./ClientAppointments";
-import AccountSettings from "./AccountSettings";
-import AccountDetails from "./AccountDetails";
+import AccountManager from "./AccountManager";
+import ClientReports from "./ClientReports";
 
 const ClientDashboard = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -91,10 +91,10 @@ const ClientDashboard = () => {
         return <ClientWorkouts />;
       case 2:
         return <ClientAppointments />;
-      case 3:
-        return <AccountSettings />;
+        case 3:
+        return <ClientReports />;
       case 4:
-        return <AccountDetails />;
+        return <AccountManager />;
 
       default:
         return <Typography>Nieznana zakładka</Typography>;
@@ -129,8 +129,8 @@ const ClientDashboard = () => {
             <Tab label="Dashboard" />
             <Tab label="Treningi" />
             <Tab label="Harmonogram spotkań" />
+            <Tab label="Raporty" />
             <Tab label="Zarządzanie kontem" />
-            <Tab label="Moje konto" />
 
           </Tabs>
         </Box>

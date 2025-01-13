@@ -62,6 +62,10 @@ public class ClientService {
                 .map(this::convertToDto);
     }
 
+    public Optional<Client> findByUsername(String username) {
+        return clientRepository.findByUser_Username(username);
+    }
+
     @Transactional
     public Client createClient(ClientCreateDto clientCreateDto, Long trainerId) {
         // Szukanie trenera w bazie
@@ -97,5 +101,11 @@ public class ClientService {
                 .map(this::convertToDto);
     }
 
+    public Optional<Client> findById(Long clientId) {
+        return clientRepository.findById(clientId);
+
+    }
 }
+
+
 
