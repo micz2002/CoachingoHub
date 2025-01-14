@@ -99,8 +99,7 @@ public class ReportService {
         return reportDto;
     }
 
-
-
+    
     public List<ReportDto> getReportsByTrainer(Long trainerId) {
         return reportRepository.findByTrainerId(trainerId)
                 .stream()

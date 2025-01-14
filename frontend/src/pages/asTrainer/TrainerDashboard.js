@@ -9,6 +9,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import WeeklyAppointmentsChart from "./WeeklyAppointmentsChart";
 import TrainerAccountManager from "./TrainerAccountManager";
 import TrainerReports from "./TrainerReports";
+import BackgroundPhoto from "../../assets/BackgroundPhotov2.png";
+
 
 
 const TrainerDashboard = () => {
@@ -137,12 +139,12 @@ const TrainerDashboard = () => {
               <Box
                 style={{
                   padding: "20px",
-                  backgroundColor: "#f9f9f9",
+                  backgroundColor: "rgba(255, 255, 255, 0.8)",
                   borderRadius: "10px",
                   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                   textAlign: "center",
                   width: "30%",
-                  marginRight: "20px",
+                  marginRight: "20px"
                 }}
               >
                 <Typography variant="h6" style={{ fontWeight: "bold" }} >Liczba klientów</Typography>
@@ -151,21 +153,21 @@ const TrainerDashboard = () => {
               <Box
                 style={{
                   padding: "20px",
-                  backgroundColor: "#f9f9f9",
+                  backgroundColor: "rgba(255, 255, 255, 0.8)",
                   borderRadius: "10px",
                   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                   textAlign: "center",
                   width: "30%",
-                  marginRight: "20px",
+                  marginRight: "20px"
                 }}
               >
                 <Typography variant="h6" style={{ fontWeight: "bold" }} >Obecnie umówione treningi</Typography>
                 <Typography variant="h4">{appointmentCount}</Typography>
               </Box>
               <Box
-                style={{
+                 style={{
                   padding: "20px",
-                  backgroundColor: "#f9f9f9",
+                  backgroundColor: "rgba(255, 255, 255, 0.8)",
                   borderRadius: "10px",
                   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                   textAlign: "center",
@@ -196,13 +198,23 @@ const TrainerDashboard = () => {
   return (
     <>
       <Box
-        style={{
+         style={{
           display: "flex",
           flexDirection: "column",
           minHeight: "100vh",
+          backgroundImage: `url(${BackgroundPhoto})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          color: "white",
         }}
       >
-        <AppBar position="static" style={{ backgroundColor: "#0073e6" }}>
+        <AppBar
+        position="static"
+        style={{
+          backgroundColor: "rgba(52, 77, 62, 0.6)", 
+          boxShadow: "none",
+        }}
+      >
           <Toolbar>
             <Typography variant="h6" style={{ flexGrow: 1 }}>
               CoachingoHub - Panel Trenera
@@ -210,7 +222,13 @@ const TrainerDashboard = () => {
             <Typography variant="body1" style={{ marginRight: "20px" }}>
               Zalogowany: {loggedInUser}
             </Typography>
-            <Button color="inherit" onClick={handleLogout}>
+            <Button
+            color="inherit"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.2)",
+              borderRadius: "20px",
+              padding: "5px 20px",
+            }} onClick={handleLogout}>
               Wyloguj się
             </Button>
           </Toolbar>

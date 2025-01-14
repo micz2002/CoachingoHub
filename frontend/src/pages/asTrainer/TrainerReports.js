@@ -40,6 +40,8 @@ const TrainerReports = () => {
     additionalNotes: "",
   });
   const [message, setMessage] = useState("");
+  const [filteredReports, setFilteredReports] = useState([]);
+  const [filterLastName, setFilterLastName] = useState("");
 
   // Pobieranie raportów klienta
   const fetchReports = async () => {
@@ -71,6 +73,7 @@ const TrainerReports = () => {
 
       console.log("Reports Response Data:", reportsResponse.data);
 
+      setFilteredReports(reportsResponse.data);
       // Upewnienie się, że dane są tablicą
       setReports(Array.isArray(reportsResponse.data) ? reportsResponse.data : []);
     } catch (err) {
@@ -87,6 +90,18 @@ const TrainerReports = () => {
       console.error("User is not logged in or missing token");
     }
   }, []);
+
+  // Obsługa zmiany w polu filtra nazwiska klienta
+  const handleFilterChange = (e) => {
+    const value = e.target.value;
+    setFilterLastName(value);
+
+    // Filtruj raporty po nazwisku klienta
+    const filtered = reports.filter((report) =>
+      report.clientLastName.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredReports(filtered);
+  };
 
   // Pobieranie raportu jako DOCX
   const handleDownloadReport = async (reportId, reportTitle, clientFirstName, clientLastName) => {
@@ -138,24 +153,33 @@ const TrainerReports = () => {
 
       {message && <Typography color="primary">{message}</Typography>}
 
-     
+      {/* Pole tekstowe do filtrowania po nazwisku */}
+      <Box mt={2} mb={3}>
+        <TextField
+          label="Filtruj po nazwisku klienta"
+          fullWidth
+          value={filterLastName}
+          onChange={handleFilterChange}
+        />
+      </Box>
+
       {/* Lista raportów */}
       <Typography variant="h6">Twoje Raporty</Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Imię i nazwisko</TableCell>  
+              <TableCell>Imię i nazwisko</TableCell>
               <TableCell>Tytuł</TableCell>
               <TableCell>Data</TableCell>
               <TableCell>Akcja</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(reports) && reports.length > 0 ? (
-              reports.map((report) => (
+            {filteredReports.length > 0 ? (
+              filteredReports.map((report) => (
                 <TableRow key={report.id}>
-                   <TableCell>{report.clientFirstName} {report.clientLastName}</TableCell>
+                  <TableCell>{report.clientFirstName} {report.clientLastName}</TableCell>
                   <TableCell>{report.title}</TableCell>
                   <TableCell>{new Date(report.dateFilled).toLocaleDateString()}</TableCell>
                   <TableCell>
