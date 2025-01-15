@@ -10,10 +10,32 @@ import WeeklyAppointmentsChart from "./WeeklyAppointmentsChart";
 import TrainerAccountManager from "./TrainerAccountManager";
 import TrainerReports from "./TrainerReports";
 import BackgroundPhoto from "../../assets/BackgroundPhotov2.png";
+import { color } from "chart.js/helpers";
+import { makeStyles } from "@mui/styles";
 
-
+const useStyles = makeStyles({
+  boxStyle: {
+    padding: "20px",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    borderRadius: "10px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.9)",
+    textAlign: "center",
+    width: "30%",
+    marginRight: "20px",
+    height: "100%"
+  },
+  boxTitle: {
+    fontWeight: "bold",
+    textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+  },
+  boxValue: {
+    fontWeight: "bold",
+    textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+  },
+});
 
 const TrainerDashboard = () => {
+  const styles = useStyles();
   const [trainerInfo, setTrainerInfo] = useState({ id: null, firstName: "", lastName: "", username: "" });
   const [tabIndex, setTabIndex] = useState(0);
   const [loggedInUser, setLoggedInUser] = useState("");
@@ -129,53 +151,34 @@ const TrainerDashboard = () => {
     setTodayAppointmentCount(todayAppointments.length);
   };
 
+
+
   const renderTabContent = () => {
     switch (tabIndex) {
       case 0:
         return (
           <>
-            <Typography>Dashboard - Najważniejsze informacje</Typography>
+           
             <Box display="flex" justifyContent="space-around" mt={4}>
-              <Box
-                style={{
-                  padding: "20px",
-                  backgroundColor: "rgba(255, 255, 255, 0.8)",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                  textAlign: "center",
-                  width: "30%",
-                  marginRight: "20px"
-                }}
-              >
-                <Typography variant="h6" style={{ fontWeight: "bold" }} >Liczba klientów</Typography>
-                <Typography variant="h4">{clientCount}</Typography>
+              <Box className={styles.boxStyle}>
+                <Typography variant="h6"
+                  className={styles.boxTitle}
+                >Liczba klientów</Typography>
+                <Typography variant="h4"
+                  className={styles.boxValue}
+                >{clientCount}</Typography>
               </Box>
               <Box
-                style={{
-                  padding: "20px",
-                  backgroundColor: "rgba(255, 255, 255, 0.8)",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                  textAlign: "center",
-                  width: "30%",
-                  marginRight: "20px"
-                }}
+                className={styles.boxStyle}
               >
-                <Typography variant="h6" style={{ fontWeight: "bold" }} >Obecnie umówione treningi</Typography>
-                <Typography variant="h4">{appointmentCount}</Typography>
+                <Typography variant="h6" className={styles.boxTitle} >Obecnie umówione treningi</Typography>
+                <Typography variant="h4" className={styles.boxValue}>{appointmentCount}</Typography>
               </Box>
               <Box
-                 style={{
-                  padding: "20px",
-                  backgroundColor: "rgba(255, 255, 255, 0.8)",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                  textAlign: "center",
-                  width: "30%",
-                }}
+                className={styles.boxStyle}
               >
-                <Typography variant="h6" style={{ fontWeight: "bold" }} >Treningi na dzisiaj</Typography>
-                <Typography variant="h4">{todayAppointmentCount}</Typography>
+                <Typography variant="h6" className={styles.boxTitle} >Treningi na dzisiaj</Typography>
+                <Typography variant="h4" className={styles.boxValue}>{todayAppointmentCount}</Typography>
               </Box>
             </Box>
             <WeeklyAppointmentsChart />
@@ -198,7 +201,7 @@ const TrainerDashboard = () => {
   return (
     <>
       <Box
-         style={{
+        style={{
           display: "flex",
           flexDirection: "column",
           minHeight: "100vh",
@@ -209,26 +212,28 @@ const TrainerDashboard = () => {
         }}
       >
         <AppBar
-        position="static"
-        style={{
-          backgroundColor: "rgba(52, 77, 62, 0.6)", 
-          boxShadow: "none",
-        }}
-      >
+          position="static"
+          style={{
+            backgroundColor: "rgba(52, 77, 62, 0.6)",
+            boxShadow: "none",
+          }}
+        >
           <Toolbar>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
+            <Typography variant="h6" style={{ flexGrow: 1, textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+             }}>
               CoachingoHub - Panel Trenera
             </Typography>
             <Typography variant="body1" style={{ marginRight: "20px" }}>
               Zalogowany: {loggedInUser}
             </Typography>
             <Button
-            color="inherit"
-            style={{
-              backgroundColor: "rgba(255, 255, 255, 0.2)",
-              borderRadius: "20px",
-              padding: "5px 20px",
-            }} onClick={handleLogout}>
+              color="inherit"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                borderRadius: "20px",
+                padding: "5px 20px",
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+              }} onClick={handleLogout}>
               Wyloguj się
             </Button>
           </Toolbar>
@@ -240,14 +245,36 @@ const TrainerDashboard = () => {
               value={tabIndex}
               onChange={handleTabChange}
               indicatorColor="primary"
-              textColor="primary"
+              textColor="inherit"
               centered
+              style={{
+                color: "white",
+                background: "rgba(53, 58, 54, 0.65)",
+                margin: "auto auto auto auto",
+                borderRadius: "20px"
+              }}
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: "white", // White indicator for tabs
+                },
+              }}
             >
-              <Tab label="Dashboard" />
-              <Tab label="Lista klientów" />
-              <Tab label="Harmonogram spotkań" />
-              <Tab label="Raporty" />
-              <Tab label="Zarządzanie kontem" />
+                {["Dashboard", "Lista klientów", "Harmonogram spotkań", "Raporty", "Zarządzanie kontem"].map(
+    (label, index) => (
+      <Tab
+        key={index}
+        label={label}
+        sx={{
+          textShadow:
+            tabIndex === index
+              ? "0px 3px 5px rgba(0, 0, 0, 0.8)" // Cień dla aktywnej zakładki
+              : "0px 3px 5px rgba(255, 255, 255, 0.8)",
+          color: "white",
+        }}
+      />
+    )
+  )}
+            
             </Tabs>
           </Box>
 
@@ -258,13 +285,13 @@ const TrainerDashboard = () => {
         <Box
           component="footer"
           style={{
-            backgroundColor: "#f1f1f1",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
             padding: "10px 0",
             textAlign: "center",
             marginTop: "auto",
           }}
         >
-          <Typography variant="body2" color="textSecondary" >
+          <Typography variant="body2" color="textSecondary" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
             &copy; 2024 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
           </Typography>
         </Box>

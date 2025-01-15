@@ -5,6 +5,7 @@ import com.jf.coachingohub.model.Client;
 import com.jf.coachingohub.model.Report;
 import com.jf.coachingohub.model.Trainer;
 import com.jf.coachingohub.repository.ReportRepository;
+import com.twilio.twiml.voice.Pay;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class ReportService {
         this.reportRepository = reportRepository;
         this.clientService = clientService;
     }
+
 
     @Transactional
     public Report createReport(Report report) {

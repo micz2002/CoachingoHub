@@ -3,6 +3,7 @@ import axios from "axios";
 import { TextField, Button, Container, Typography, Box, AppBar, Toolbar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import BackgroundLoginPhoto from "../assets/BackgroundLogin.png"
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -73,24 +74,37 @@ const Login = () => {
 
   return (
     <>
-      <AppBar position="static" style={{ backgroundColor: "#0073e6" }}>
-        <Toolbar>
-          <Typography variant="h6" style={{ flexGrow: 1, color: "white" }}>
-            CoachingoHub
-          </Typography>
-          <Button color="inherit" style={{ marginRight: "10px" }} onClick={() => navigate("/register")}>
-            Zarejestruj się
-          </Button>
-        </Toolbar>
-      </AppBar>
-
       <Box
         style={{
           display: "flex",
           flexDirection: "column",
           minHeight: "100vh",
-        }}
-      >
+          backgroundImage: `url(${BackgroundLoginPhoto})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          color: "white",
+        }}>
+        <AppBar position="static"
+          style={{
+            backgroundColor: "rgba(40, 52, 45, 0.6)",
+            boxShadow: "none",
+          }}>
+          <Toolbar>
+            <Typography variant="h6" style={{ flexGrow: 1, textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",                     }}>
+              CoachingoHub
+            </Typography>
+            <Button color="inherit" style={{
+              backgroundColor: "rgba(255, 255, 255, 0.2)",
+              borderRadius: "20px",
+              padding: "5px 20px",
+              textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+            }} onClick={() => navigate("/register")}>
+              Zarejestruj się
+            </Button>
+          </Toolbar>
+        </AppBar>
+
+
         <Container maxWidth="sm" style={{ flexGrow: 1 }}>
           <Box
             mt={8}
@@ -98,21 +112,43 @@ const Login = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              backgroundColor: "#f9f9f9",
+              backgroundColor: "rgba(0, 0, 0, 0.65)",
               padding: "30px",
-              borderRadius: "10px",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+              borderRadius: "20px",
+              boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.9)",
+              color: "white",
             }}
           >
-            <Typography variant="h4" gutterBottom>Logowanie</Typography>
+            <Typography
+              variant="h4"
+              gutterBottom
+              style={{
+                textShadow: "0px 3px 10px rgba(255, 255, 255, 0.8)",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              Logowanie
+            </Typography>
             {error && <Typography color="error">{error}</Typography>}
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin} style={{ width: "100%" }}>
               <TextField
                 label="Nazwa użytkownika"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 fullWidth
                 margin="normal"
+                InputProps={{
+                  style: {
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                    borderRadius: "5px",
+                    color: "white",
+                  },
+                }}
+                InputLabelProps={{
+                  style: { color: "white" },
+                }}
+                style={{textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)"}}
               />
               <TextField
                 label="Hasło"
@@ -121,16 +157,46 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 fullWidth
                 margin="normal"
+                InputProps={{
+                  style: {
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                    borderRadius: "5px",
+                    color: "white",
+                    
+                  },
+                }}
+                InputLabelProps={{
+                  style: { color: "white" },
+                  
+                }}
+                style={{textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)"}}
               />
-              <Button type="submit" variant="contained" color="primary" fullWidth>
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                style={{
+                  marginTop: "20px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  color: "white",
+                  fontWeight: "bold",
+                  textShadow: "0px 2px 5px rgba(0, 0, 0, 0.8)",
+                }}
+              >
                 Zaloguj się
               </Button>
             </form>
-            <Button onClick={() => setForgotPasswordOpen(true)} color="primary" style={{ marginTop: "10px" }}>
+            <Button
+              onClick={() => setForgotPasswordOpen(true)}
+              style={{
+                marginTop: "10px",
+                color: "white",
+                textDecoration: "underline",
+              }}
+            >
               Zapomniałeś hasła?
             </Button>
 
-            {/* Modal do wpisania e-maila i nazwy użytkownika */}
             {forgotPasswordOpen && (
               <Box
                 style={{
@@ -138,15 +204,20 @@ const Login = () => {
                   top: "50%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
-                  backgroundColor: "white",
+                  backgroundColor: "rgba(0, 0, 0, 0.8)",
                   padding: "20px",
                   borderRadius: "10px",
-                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.9)",
                   zIndex: 1000,
                   maxWidth: "400px",
+                  color: "white",
                 }}
               >
-                <Typography variant="h6" gutterBottom>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  style={{ color: "white", textShadow: "0px 2px 5px rgba(0, 0, 0, 0.9)" }}
+                >
                   Resetuj hasło
                 </Typography>
                 <TextField
@@ -155,6 +226,16 @@ const Login = () => {
                   margin="normal"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  InputProps={{
+                    style: {
+                      backgroundColor: "rgba(255, 255, 255, 0.2)",
+                      borderRadius: "5px",
+                      color: "white",
+                    },
+                  }}
+                  InputLabelProps={{
+                    style: { color: "white" },
+                  }}
                 />
                 <TextField
                   label="Podaj swoją nazwę użytkownika"
@@ -162,21 +243,38 @@ const Login = () => {
                   margin="normal"
                   value={resetUsername}
                   onChange={(e) => setResetUsername(e.target.value)}
+                  InputProps={{
+                    style: {
+                      backgroundColor: "rgba(255, 255, 255, 0.2)",
+                      borderRadius: "5px",
+                      color: "white",
+                    },
+                  }}
+                  InputLabelProps={{
+                    style: { color: "white" },
+                  }}
                 />
                 <Button
                   variant="contained"
-                  color="primary"
                   fullWidth
-                  style={{ marginTop: "20px" }}
+                  style={{
+                    marginTop: "20px",
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
                   onClick={handleForgotPassword}
                 >
                   Wyślij link resetujący
                 </Button>
                 <Button
                   variant="outlined"
-                  color="secondary"
                   fullWidth
-                  style={{ marginTop: "10px" }}
+                  style={{
+                    marginTop: "10px",
+                    color: "white",
+                    borderColor: "white",
+                  }}
                   onClick={() => setForgotPasswordOpen(false)}
                 >
                   Anuluj
@@ -184,12 +282,15 @@ const Login = () => {
               </Box>
             )}
 
-            {/* Przycisk przekierowujący na stronę resetu hasła */}
             {linkSent && (
               <Button
                 variant="contained"
-                color="secondary"
-                style={{ marginTop: "20px" }}
+                style={{
+                  marginTop: "20px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  color: "white",
+                  fontWeight: "bold",
+                }}
                 onClick={handleNavigateToReset}
               >
                 Przejdź do strony resetu hasła
@@ -201,17 +302,18 @@ const Login = () => {
         <Box
           component="footer"
           style={{
-            backgroundColor: "#f1f1f1",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
             padding: "10px 0",
             textAlign: "center",
             marginTop: "auto",
           }}
         >
-          <Typography variant="body2" color="textSecondary">
-            &copy; 2024 CoachingoHub. Wszelkie prawa zastrzeżone.
+          <Typography variant="body2" color="textSecondary" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
+            &copy; 2024 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
           </Typography>
         </Box>
       </Box>
+
     </>
   );
 };

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { TextField, Button, Container, Typography, Box, AppBar, Toolbar } from "@mui/material";
+import BackgroundLoginPhoto from "../assets/BackgroundLogin.png"
+
 
 const RegisterTrainer = () => {
   const [formData, setFormData] = useState({
@@ -34,136 +36,159 @@ const RegisterTrainer = () => {
 
   return (
     <>
-      <AppBar position="static" style={{ backgroundColor: "#0073e6" }}>
-        <Toolbar>
-          <Typography variant="h6" style={{ flexGrow: 1, color: "white" }}>
-          CoachingoHub
-          </Typography>
-          <Button color="inherit" style={{ marginRight: "10px" }} href="/">
-            Zaloguj się
-          </Button>
-        </Toolbar>
-      </AppBar>
-
-      <Container maxWidth="sm">
-        <Box
-          mt={8}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            backgroundColor: "#f9f9f9",
-            padding: "30px",
-            borderRadius: "10px",
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <Typography variant="h4" gutterBottom>
-            Rejestracja Trenera
-          </Typography>
-          {success && (
-            <Typography color="primary" gutterBottom>
-              Rejestracja przebiegła pomyślnie! Czekaj na zatwierdzenie konta przez administratora (do 24h).
-            </Typography>
-          )}
-          {error && (
-            <Typography color="error" gutterBottom>
-              {error}
-            </Typography>
-          )}
-          <form onSubmit={handleSubmit} style={{ width: "100%" }}>
-            <TextField
-              label="Nazwa użytkownika"
-              name="username"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="Hasło"
-              name="password"
-              type="password"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="Imię"
-              name="firstName"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="Nazwisko"
-              name="lastName"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="E-mail"
-              name="email"
-              type="email"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="Specjalizacja"
-              name="specialization"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={formData.specialization}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="Doświadczenie (lata)"
-              name="experience"
-              type="number"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={formData.experience}
-              onChange={handleChange}
-              required
-            />
-            <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: "20px" }}>
-              Zarejestruj się
-            </Button>
-          </form>
-        </Box>
-      </Container>
-
       <Box
-        component="footer"
         style={{
-          backgroundColor: "#f1f1f1",
-          padding: "10px 0",
-          textAlign: "center",
-          marginTop: "20px",
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          backgroundImage: `url(${BackgroundLoginPhoto})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          color: "white",
         }}
       >
-        <Typography variant="body2" color="textSecondary">
-          &copy; 2024 CoachingoHub. Wszelkie prawa zastrzeżone.
-        </Typography>
+        <AppBar
+          position="static"
+          style={{
+            backgroundColor: "rgba(40, 52, 45, 0.6)",
+            boxShadow: "none",
+          }}
+        >
+          <Toolbar>
+            <Typography variant="h6" style={{ flexGrow: 1, textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",                     }}>
+              CoachingoHub
+            </Typography>
+            <Button
+              color="inherit"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                borderRadius: "20px",
+                padding: "5px 20px",
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+              }}
+              href="/"
+            >
+              Zaloguj się
+            </Button>
+          </Toolbar>
+        </AppBar>
+
+        <Container maxWidth="sm" style={{ flexGrow: 1 }}>
+          <Box
+            mt={8}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.65)",
+              padding: "30px",
+              borderRadius: "20px",
+              boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.9)",
+              color: "white",
+              marginBottom: "20px",
+            }}
+          >
+            <Typography
+              variant="h4"
+              gutterBottom
+              style={{
+                textShadow: "0px 3px 10px rgba(255, 255, 255, 0.8)",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              Rejestracja Trenera
+            </Typography>
+            {success && (
+              <Typography
+                style={{
+                  color: "#7DFF90",
+                  textShadow: "0px 3px 10px rgba(0, 0, 0, 0.8)",
+                }}
+                gutterBottom
+              >
+                Rejestracja przebiegła pomyślnie! Czekaj na zatwierdzenie konta
+                przez administratora (do 24h).
+              </Typography>
+            )}
+            {error && (
+              <Typography
+                style={{
+                  color: "#FF7373",
+                  textShadow: "0px 3px 10px rgba(0, 0, 0, 0.8)",
+                }}
+                gutterBottom
+              >
+                {error}
+              </Typography>
+            )}
+            <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+              {[
+                { label: "Nazwa użytkownika", name: "username" },
+                { label: "Hasło", name: "password", type: "password" },
+                { label: "Imię", name: "firstName" },
+                { label: "Nazwisko", name: "lastName" },
+                { label: "E-mail", name: "email", type: "email" },
+                { label: "Specjalizacja", name: "specialization" },
+                { label: "Doświadczenie (lata)", name: "experience", type: "number" },
+              ].map((field) => (
+                <TextField
+                  key={field.name}
+                  label={field.label}
+                  name={field.name}
+                  type={field.type || "text"}
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  InputProps={{
+                    style: {
+                      backgroundColor: "rgba(255, 255, 255, 0.2)",
+                      borderRadius: "5px",
+                      color: "white",
+                    },
+                  }}
+                  InputLabelProps={{
+                    style: { color: "white" },
+                  }}
+                />
+              ))}
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                style={{
+                  marginTop: "20px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  color: "white",
+                  fontWeight: "bold",
+                  textShadow: "0px 2px 5px rgba(0, 0, 0, 0.8)",
+                }}
+              >
+                Zarejestruj się
+              </Button>
+            </form>
+          </Box>
+        </Container>
+
+        <Box
+          component="footer"
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            padding: "10px 0",
+            textAlign: "center",
+            marginTop: "auto",
+          }}
+        >
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            style={{ color: "rgba(255, 255, 255, 0.7)" }}
+          >
+            &copy; 2024 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
+          </Typography>
+        </Box>
       </Box>
     </>
   );

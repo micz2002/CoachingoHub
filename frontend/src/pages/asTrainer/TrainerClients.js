@@ -104,41 +104,69 @@ const TrainerClients = () => {
 
   return (
     <Box>
-      <Typography variant="h5" gutterBottom>
-        Lista klientów
-      </Typography>
       <Button
         variant="contained"
         color="primary"
         onClick={handleOpen}
-        style={{ marginBottom: "20px" }}
+        style={{  backgroundColor: "rgba(0, 0, 0, 0.65)",
+          borderRadius: "20px",
+          padding: "5px 20px",
+          textShadow: "0px 3px 10px rgba(255, 255, 255, 0.9)",
+          marginBottom: "7px"
+        }}
       >
         Dodaj klienta
       </Button>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Nazwa użytkownika</TableCell>
-              <TableCell>Imię</TableCell>
-              <TableCell>Nazwisko</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Akcje</TableCell>
+      <TableContainer style={{  padding: "20px",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    borderRadius: "10px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.9)",
+    textAlign: "center",
+    width: "1oo%",
+    marginRight: "20px",
+    height: "100%",
+          textShadow: "0px 3px 10px rgba(255, 255, 255, 0.5)",}} component={Paper}>
+        <Table >
+          <TableHead >
+            <TableRow style={{backgroundColor:  "rgba(104, 125, 112, 0.7)",}} >
+              <TableCell style={{color: "white", 
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+              }}>Nazwa użytkownika</TableCell>
+              <TableCell style={{color: "white", 
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+              }}>Imię</TableCell>
+              <TableCell style={{color: "white", 
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+              }}>Nazwisko</TableCell>
+              <TableCell style={{color: "white", 
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+              }}>Email</TableCell>
+              <TableCell style={{color: "white", 
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+              }}>Akcje</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody style={{backgroundColor:  "rgba(60, 75, 66, 0.7)",}}>
             {clients.map((client) => (
               <TableRow key={client.id}>
-                <TableCell>{client.username}</TableCell>
-                <TableCell>{client.firstName}</TableCell>
-                <TableCell>{client.lastName}</TableCell>
-                <TableCell>{client.email}</TableCell>
+                <TableCell style={{color: "white"}}>{client.username}</TableCell>
+                <TableCell style={{color: "white"}}>{client.firstName}</TableCell>
+                <TableCell style={{color: "white"}}>{client.lastName}</TableCell>
+                <TableCell style={{color: "white"}}>{client.email}</TableCell>
                 <TableCell>
                   <Button
                     variant="outlined"
                     color="primary"
                     onClick={() => navigate(`/clients/${client.id}`)}
-                    style={{ marginRight: "10px" }}
+                    style={{ padding: "5px 15px",
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      borderRadius: "10px",
+                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.9)",
+                      textAlign: "center",
+                      marginRight: "20px",
+                      color: "white",
+                      border: "1px solid white",
+                      }}
                   >
                     Szczegóły
                   </Button>
