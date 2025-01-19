@@ -47,7 +47,6 @@ public class TrainerController {
     }
 
 
-    //Na pewno stworzyc frontend do tego, ma to byc rejestracja klienta przez zalogowanego trenera dla tego zalogowanego trenera
     @PostMapping("/clients")
     public ResponseEntity<Client> createClient(@Valid @RequestBody ClientCreateDto clientCreateDto) {
         // Pobieranie zalogowanego użytkownika z SecurityContext
@@ -62,22 +61,29 @@ public class TrainerController {
         return ResponseEntity.ok(createdClient);
     }
 
-    //Na pewno stworzyc frontend do tego, ma to byc widok dostepnych klientwo powiazanych z zalogowanym trenerem do ktorych bedzie
-    //szlo zapisac treningi opisane w poprzednich kontroelrach, umowic wizyte itd
+
+    // Endpoint do pobierania listy klientów powiązanych z zalogowanym trenerem
     @GetMapping("/clients")
     public ResponseEntity<List<ClientDto>> getClients() {
         // Pobieranie zalogowanego użytkownika z SecurityContext
         org.springframework.security.core.userdetails.User authenticatedUser =
-                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                (org.springframework.security.core.userdetails.User) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
 
+        // Pobranie nazwy użytkownika zalogowanego trenera
         String username = authenticatedUser.getUsername();
+        // Wyszukanie obiektu trenera na podstawie loginu użytkownika
         Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
+        // Jeśli trener nie zostanie znaleziony, zgłoszenie wyjątku
         Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
-
-        // Pobierz klientów powiązanych z trenerem
+        // Pobranie listy klientów powiązanych z identyfikatorem trenera
         List<ClientDto> clients = clientService.findDtoByTrainerId(trainer.getId());
+        // Zwrócenie listy klientów w odpowiedzi HTTP
         return ResponseEntity.ok(clients);
     }
+
 
     @GetMapping("/clients/{id}")
     public ResponseEntity<ClientDto> getClientById(@PathVariable Long id) {

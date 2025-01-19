@@ -16,12 +16,15 @@ const WeeklyAppointmentsChart = () => {
     const [totalAppointments, setTotalAppointments] = useState(0);
     const [maxCount, setMaxCount] = useState(0);
 
+    // Funkcja asynchroniczna do pobrania danych o liczbie wizyt na bieżący tydzień
     const fetchWeeklyAppointments = async () => {
         try {
+            // Wykonanie żądania GET do odpowiedniego endpointu na backendzie
             const response = await axios.get(
                 "http://localhost:8080/api/appointments/appointments-this-week",
                 {
                     headers: {
+                        // Przekazanie tokena JWT w nagłówku autoryzacji
                         Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
                     },
                 }
@@ -51,8 +54,8 @@ const WeeklyAppointmentsChart = () => {
     }, []);
 
     return (
-        <Box display="flex" flexDirection="column"  mt={4}
-        style={{marginRight: "20px"}}>
+        <Box display="flex" flexDirection="column" mt={4}
+            style={{ marginRight: "20px" }}>
             <Typography variant="h6" gutterBottom align="center"
                 style={{
                     padding: "2px",
@@ -60,71 +63,73 @@ const WeeklyAppointmentsChart = () => {
                     textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
                     backgroundColor: "rgba(0, 0, 0, 0.5)",
                     margin: "0 350px 10px 345px",
-                    borderRadius: "10px",        
-                    fontWeight: "bold" ,
-                   
-                                     
+                    borderRadius: "10px",
+                    fontWeight: "bold",
+
+
                 }}>
                 Liczba treningów w bieżącym tygodniu: {totalAppointments}
             </Typography>
 
-            <ResponsiveContainer   style={{
-    marginRight: "20px",
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-    borderRadius: "15px",
-    boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.8)",
-    padding: "20px",
-    width: "90%", 
-    margin: "5px auto 0px auto", // Wyśrodkowanie
-  }} width="90%" height={220}>
-                <LineChart 
+            <ResponsiveContainer style={{
+                marginRight: "20px",
+                backgroundColor: "rgba(0, 0, 0, 0.3)",
+                borderRadius: "15px",
+                boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.8)",
+                padding: "20px",
+                width: "90%",
+                margin: "5px auto 0px auto", // Wyśrodkowanie
+            }} width="90%" height={220}>
+                <LineChart
                     data={weeklyData}
                     margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                 >
                     <CartesianGrid strokeDasharray="3 3"
-                    stroke="rgba(255, 255, 255, 0.2)" />
-                    <XAxis dataKey="date" 
-                    stroke="#fff"
-                    tick={{ fill: "#fff" }}
-                    strokeWidth={1.5}
-                    style={{ fontSize: "12px",
-                    fontWeight: "500"
-                     }}/>
+                        stroke="rgba(255, 255, 255, 0.2)" />
+                    <XAxis dataKey="date"
+                        stroke="#fff"
+                        tick={{ fill: "#fff" }}
+                        strokeWidth={1.5}
+                        style={{
+                            fontSize: "12px",
+                            fontWeight: "500"
+                        }} />
                     <YAxis
                         label={{
                             value: "Treningi",
                             angle: -90,
                             position: "insideLeft",
                             fill: "#fff",
-                            style: { fontSize: "12px", textAnchor: "middle",
-                            fontWeight: "bold",
-                             },
-                          }}
-                          stroke="#fff"
-                          tick={{ fill: "#fff" }}
-                          allowDecimals={false}
-                          domain={[0, maxCount]} 
-                          strokeWidth={1.5}
+                            style: {
+                                fontSize: "12px", textAnchor: "middle",
+                                fontWeight: "bold",
+                            },
+                        }}
+                        stroke="#fff"
+                        tick={{ fill: "#fff" }}
+                        allowDecimals={false}
+                        domain={[0, maxCount]}
+                        strokeWidth={1.5}
                     />
-                    <Tooltip 
-                    contentStyle={{
-                        backgroundColor: "rgba(0, 0, 0, 0.7)",
-                        borderRadius: "10px",
-                        color: "#fff",
-                        border: "none",
-                      }}
-                      labelStyle={{ color: "#fff" }}/>
+                    <Tooltip
+                        contentStyle={{
+                            backgroundColor: "rgba(0, 0, 0, 0.7)",
+                            borderRadius: "10px",
+                            color: "#fff",
+                            border: "none",
+                        }}
+                        labelStyle={{ color: "#fff" }} />
                     <Line
-                         type="monotone"
-                         dataKey="count"
-                         stroke="rgb(176, 255, 234)" 
-                         strokeWidth={2.5}
-                         activeDot={{
-                           r: 10,
-                           fill: "#fff",
-                           stroke: "#00ffcc",
-                           strokeWidth: 2,
-                         }}
+                        type="monotone"
+                        dataKey="count"
+                        stroke="rgb(176, 255, 234)"
+                        strokeWidth={2.5}
+                        activeDot={{
+                            r: 10,
+                            fill: "#fff",
+                            stroke: "#00ffcc",
+                            strokeWidth: 2,
+                        }}
                     />
                 </LineChart>
             </ResponsiveContainer>

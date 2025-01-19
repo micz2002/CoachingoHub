@@ -91,19 +91,28 @@ public class AppointmentController {
         return ResponseEntity.ok(updatedAppointment);
     }
 
+    // Endpoint do pobierania liczby spotkań dla bieżącego tygodnia
     @GetMapping("/appointments-this-week")
     public ResponseEntity<Map<String, Integer>> getAppointmentsForThisWeek() {
         // Pobieranie zalogowanego użytkownika z SecurityContext
         org.springframework.security.core.userdetails.User authenticatedUser =
-                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                (org.springframework.security.core.userdetails.User) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
 
+        // Pobieranie nazwy użytkownika zalogowanego trenera
         String username = authenticatedUser.getUsername();
+        // Wyszukiwanie trenera na podstawie nazwy użytkownika
         Optional<Trainer> trainerOptional = trainerService.findByUsername(username);
+        // Jeśli trener nie zostanie znaleziony, zgłoszenie wyjątku
         Trainer trainer = trainerOptional.orElseThrow(() -> new RuntimeException("Trainer not found"));
-
+        // Pobranie liczby wizyt trenera na każdy dzień bieżącego tygodnia
         Map<String, Integer> appointmentsByDay = appointmentService.countAppointmentsThisWeekForTrainer(trainer.getId());
+        // Zwrócenie mapy zawierającej liczbę wizyt w formacie odpowiedzi HTTP
         return ResponseEntity.ok(appointmentsByDay);
     }
+
 
 }
 

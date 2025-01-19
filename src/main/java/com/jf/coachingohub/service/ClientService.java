@@ -50,12 +50,14 @@ public class ClientService {
                 client.getUser().getPhoneNumber());
     }
 
+    // Metoda do znalezienia listy klientów (w formacie DTO) powiązanych z danym trenerem
     public List<ClientDto> findDtoByTrainerId(Long trainerId) {
-        return clientRepository.findByTrainerId(trainerId)
-                .stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+        return clientRepository.findByTrainerId(trainerId) // Pobranie klientów z bazy danych na podstawie ID trenera
+                .stream() // Przekształcenie listy klientów na strumień (Stream API)
+                .map(this::convertToDto) // Konwersja każdego obiektu Client na ClientDto za pomocą metody pomocniczej
+                .collect(Collectors.toList()); // Zbiór przekształconych obiektów zapisany jako lista
     }
+
 
     public Optional<ClientDto> findDtoByUsername(String username) {
         return clientRepository.findByUser_Username(username)

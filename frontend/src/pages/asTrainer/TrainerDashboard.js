@@ -158,7 +158,7 @@ const TrainerDashboard = () => {
       case 0:
         return (
           <>
-           
+
             <Box display="flex" justifyContent="space-around" mt={4}>
               <Box className={styles.boxStyle}>
                 <Typography variant="h6"
@@ -219,8 +219,9 @@ const TrainerDashboard = () => {
           }}
         >
           <Toolbar>
-            <Typography variant="h6" style={{ flexGrow: 1, textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
-             }}>
+            <Typography variant="h6" style={{
+              flexGrow: 1, textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+            }}>
               CoachingoHub - Panel Trenera
             </Typography>
             <Typography variant="body1" style={{ marginRight: "20px" }}>
@@ -259,22 +260,22 @@ const TrainerDashboard = () => {
                 },
               }}
             >
-                {["Dashboard", "Lista klientów", "Harmonogram spotkań", "Raporty", "Zarządzanie kontem"].map(
-    (label, index) => (
-      <Tab
-        key={index}
-        label={label}
-        sx={{
-          textShadow:
-            tabIndex === index
-              ? "0px 3px 5px rgba(0, 0, 0, 0.8)" // Cień dla aktywnej zakładki
-              : "0px 3px 5px rgba(255, 255, 255, 0.8)",
-          color: "white",
-        }}
-      />
-    )
-  )}
-            
+              {["Dashboard", "Lista klientów", "Harmonogram spotkań", "Raporty", "Zarządzanie kontem"].map(
+                (label, index) => (
+                  <Tab
+                    key={index}
+                    label={label}
+                    sx={{
+                      textShadow:
+                        tabIndex === index
+                          ? "0px 3px 5px rgba(0, 0, 0, 0.8)" // Cień dla aktywnej zakładki
+                          : "0px 3px 5px rgba(255, 255, 255, 0.8)",
+                      color: "white",
+                    }}
+                  />
+                )
+              )}
+
             </Tabs>
           </Box>
 
@@ -292,7 +293,7 @@ const TrainerDashboard = () => {
           }}
         >
           <Typography variant="body2" color="textSecondary" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
-            &copy; 2024 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
+            &copy; 2025 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
           </Typography>
         </Box>
       </Box>

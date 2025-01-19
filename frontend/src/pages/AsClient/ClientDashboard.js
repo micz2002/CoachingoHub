@@ -6,6 +6,7 @@ import ClientWorkouts from "./ClientWorkouts";
 import ClientAppointments from "./ClientAppointments";
 import ClientAccountManager from "./ClientAccountManager";
 import ClientReports from "./ClientReports";
+import BackgroundPhoto from "../../assets/BackgroundPhotov2.png";
 
 const ClientDashboard = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -49,18 +50,29 @@ const ClientDashboard = () => {
     switch (tabIndex) {
       case 0:
         return (
-          <Box mt={4}>
-            <Typography variant="h5" gutterBottom>
+          <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
+            <Typography variant="h5" gutterBottom
+              style={{
+                marginTop: "20px",
+                fontWeight: "bold",
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+
+              }}>
               Witaj w panelu klienta, {loggedInUser}!
             </Typography>
             {trainerInfo ? (
               <Box
                 style={{
                   padding: "20px",
-                  backgroundColor: "#f9f9f9",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
                   borderRadius: "10px",
-                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.9)",
                   textAlign: "center",
+                  width: "30%",
+                  marginRight: "20px",
+                  marginTop: "10px",
+                  height: "100%",
+                  textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
                 }}
               >
                 <Typography variant="h6" style={{ fontWeight: "bold" }}>
@@ -91,7 +103,7 @@ const ClientDashboard = () => {
         return <ClientWorkouts />;
       case 2:
         return <ClientAppointments />;
-        case 3:
+      case 3:
         return <ClientReports />;
       case 4:
         return <ClientAccountManager />;
@@ -102,16 +114,40 @@ const ClientDashboard = () => {
   };
 
   return (
-    <Box style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <AppBar position="static" style={{ backgroundColor: "#0073e6" }}>
-        <Toolbar>
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
+    <Box
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        backgroundImage: `url(${BackgroundPhoto})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        color: "white",
+      }}
+    >
+      <AppBar
+        position="static"
+        style={{
+          backgroundColor: "rgba(52, 77, 62, 0.6)",
+          boxShadow: "none",
+        }}
+      >      <Toolbar>
+          <Typography variant="h6" style={{
+            flexGrow: 1, textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+          }}>
             CoachingoHub - Panel Klienta
           </Typography>
           <Typography variant="body1" style={{ marginRight: "20px" }}>
             Zalogowany: {loggedInUser}
           </Typography>
-          <Button color="inherit" onClick={handleLogout}>
+          <Button color="inherit"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.2)",
+              borderRadius: "20px",
+              padding: "5px 20px",
+              textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+            }} onClick={handleLogout}>
             Wyloguj się
           </Button>
         </Toolbar>
@@ -123,14 +159,35 @@ const ClientDashboard = () => {
             value={tabIndex}
             onChange={handleTabChange}
             indicatorColor="primary"
-            textColor="primary"
+            textColor="inherit"
             centered
+            style={{
+              color: "white",
+              background: "rgba(53, 58, 54, 0.65)",
+              margin: "auto auto auto auto",
+              borderRadius: "20px"
+            }}
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "white", // White indicator for tabs
+              },
+            }}
           >
-            <Tab label="Dashboard" />
-            <Tab label="Treningi" />
-            <Tab label="Harmonogram spotkań" />
-            <Tab label="Raporty" />
-            <Tab label="Zarządzanie kontem" />
+            {["Dashboard", "Treningi", "Harmonogram spotkań", "Raporty", "Zarządzanie kontem"].map(
+              (label, index) => (
+                <Tab
+                  key={index}
+                  label={label}
+                  sx={{
+                    textShadow:
+                      tabIndex === index
+                        ? "0px 3px 5px rgba(0, 0, 0, 0.8)" // Cień dla aktywnej zakładki
+                        : "0px 3px 5px rgba(255, 255, 255, 0.8)",
+                    color: "white",
+                  }}
+                />
+              )
+            )}
 
           </Tabs>
         </Box>
@@ -141,14 +198,14 @@ const ClientDashboard = () => {
       <Box
         component="footer"
         style={{
-          backgroundColor: "#f1f1f1",
+          backgroundColor: "rgba(0, 0, 0, 0.6)",
           padding: "10px 0",
           textAlign: "center",
           marginTop: "auto",
         }}
       >
-        <Typography variant="body2" color="textSecondary">
-          &copy; 2024 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
+        <Typography variant="body2" color="textSecondary" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
+          &copy; 2025 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
         </Typography>
       </Box>
     </Box>

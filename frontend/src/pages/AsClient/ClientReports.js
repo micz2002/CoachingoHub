@@ -168,16 +168,32 @@ const ClientReports = () => {
 
   return (
 
-    <Box>
-      <Typography variant="h5" gutterBottom align="center">
-        Zarządzanie Raportami
-      </Typography>
+    <Box style={{
+      display: "flex", // Ustawienie obu elementów w układzie poziomym
+      flexDirection: "column", // Zmiana na kolumnowy układ
+      alignItems: "center", // Wyrównanie elementów do środka
+      gap: "15px", // Odstęp między formularzem a tabelą
+      width: "100%",
+    }}>
+
 
       {message && <Typography color="primary">{message}</Typography>}
 
       {/* Formularz dodawania nowego raportu */}
-      <Box mt={3} mb={3}>
-        <Typography variant="h6">Dodaj Nowy Raport</Typography>
+      <Box mt={3} mb={3}
+       style={{
+        backgroundColor: "rgba(0, 0, 0, 0.6)",
+        padding: "20px",
+        borderRadius: "10px",
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.9)",
+        
+      }}>
+        <Typography variant="h6"
+        style={{ textAlign: "center",
+         marginBottom: "20px",
+          textShadow: "0px 3px 10px rgba(0, 0, 0, 0.8)" 
+          }}
+          >Dodaj Nowy Raport</Typography>
 
 
         {Object.keys(newReport).map((key) => {
@@ -199,6 +215,27 @@ const ClientReports = () => {
                 onChange={(e) =>
                   setNewReport({ ...newReport, [key]: e.target.value })
                 }
+                
+                style={{ backgroundColor: "rgba(255, 255, 255, 0.1)", borderRadius: "5px",
+                  textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+                 
+                 }}
+                 sx={{
+                  "& .MuiInputBase-input": {
+                    color: "rgba(255, 255, 255, 0.7)", // Kolor tekstu
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "rgba(255, 255, 255, 0.7)", // Kolor etykiety
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "rgba(255, 255, 255, 0.7)", // Kolor obramowania
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white", // Kolor obramowania po najechaniu
+                    },
+                  },
+                }}
               />
             );
           } else if (
@@ -231,6 +268,26 @@ const ClientReports = () => {
                     setNewReport({ ...newReport, [key]: value });
                   }
                 }}
+                style={{ backgroundColor: "rgba(255, 255, 255, 0.1)", borderRadius: "5px",
+                  textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+              
+                 }}
+                 sx={{
+                  "& .MuiInputBase-input": {
+                    color: "white", // Kolor tekstu
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "rgba(255, 255, 255, 0.7)", // Kolor etykiety
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "rgba(255, 255, 255, 0.7)", // Kolor obramowania
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white", // Kolor obramowania po najechaniu
+                    },
+                  },
+                }}
               />
             );
           } else {
@@ -245,6 +302,26 @@ const ClientReports = () => {
                 onChange={(e) =>
                   setNewReport({ ...newReport, [key]: e.target.value })
                 }
+                style={{ backgroundColor: "rgba(255, 255, 255, 0.1)", borderRadius: "5px",
+                  textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+                
+                 }}
+                 sx={{
+                  "& .MuiInputBase-input": {
+                    color: "white", // Kolor tekstu
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "rgba(255, 255, 255, 0.7)", // Kolor etykiety
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "rgba(255, 255, 255, 0.7)", // Kolor obramowania
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white", // Kolor obramowania po najechaniu
+                    },
+                  },
+                }}
               />
             );
           }
@@ -253,35 +330,89 @@ const ClientReports = () => {
 
         <Button
           variant="contained"
-          color="primary"
-          fullWidth
+        
+        
+          style={{
+            marginTop: "20px",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+          borderRadius: "20px",
+          padding: "5px 20px",
+          textShadow: "0px 3px 10px rgba(255, 255, 255, 0.9)",
+          }}
           onClick={handleAddReport}
         >
           Dodaj Raport
         </Button>
       </Box>
       {/* Lista raportów */}
-      <Typography variant="h6">Twoje Raporty</Typography>
-      <TableContainer component={Paper}>
+      <Typography variant="h6"
+       style={{
+        textAlign: "left", 
+        marginLeft: "10px", 
+        fontWeight: "bold", 
+        color: "white", 
+        textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)", 
+      }}>Twoje Raporty</Typography>
+      <TableContainer style={{marginBottom: "25px",
+    padding: "20px",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    borderRadius: "10px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.9)",
+    display: "flex", // Ustawienie układu tabeli
+    justifyContent: "center", // Wyśrodkowanie tabeli
+    alignItems: "center", // Wyśrodkowanie tabeli w pionie
+    width: "90%",
+        textShadow: "0px 3px 10px rgba(255, 255, 255, 0.5)",
+        
+      }} component={Paper}>
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>Tytuł</TableCell>
-              <TableCell>Data</TableCell>
-              <TableCell>Akcja</TableCell>
+            <TableRow style={{ backgroundColor: "rgba(104, 125, 112, 0.7)", }}>
+              <TableCell
+              style={{
+                color: "white",
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+                width: "40%", // Szerokość dla Tytułu
+            textAlign: "center",
+              }}>Tytuł</TableCell>
+              <TableCell
+              style={{
+                color: "white",
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+                width: "30%", // Szerokość dla Daty
+            textAlign: "center",
+              }}>Data</TableCell>
+              <TableCell
+              style={{
+                color: "white",
+                textShadow: "0px 3px 10px rgba(0, 0, 0, 0.9)",
+                width: "30%", // Szerokość dla Akcji
+                textAlign: "center",
+              }}>Akcja</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody style={{ backgroundColor: "rgba(60, 75, 66, 0.7)", }}>
             {Array.isArray(reports) && reports.length > 0 ? (
               reports.map((report) => (
-                <TableRow key={report.id}>
-                  <TableCell>{report.title}</TableCell>
-                  <TableCell>{new Date(report.dateFilled).toLocaleDateString()}</TableCell>
-                  <TableCell>
+                <TableRow styles key={report.id}>
+                  <TableCell style={{ color: "white", textAlign: "center" }}>{report.title}</TableCell>
+                  <TableCell style={{ color: "white", textAlign: "center" }}>{new Date(report.dateFilled).toLocaleDateString()}</TableCell>
+                  <TableCell style={{ textAlign: "center" }}>
                     <Button
                       variant="contained"
                       color="primary"
                       onClick={() => handleDownloadReport(report.id, report.title)}
+                      style={{
+                        padding: "5px 15px",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        borderRadius: "10px",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.9)",
+                        textAlign: "center",
+                       
+                        color: "white",
+                        border: "1px solid white",
+                  
+                      }}
                     >
                       Pobierz DOCX
                     </Button>

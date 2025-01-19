@@ -665,7 +665,7 @@ const ClientDetails = () => {
           }}
         >
           <Typography variant="body2" color="textSecondary">
-            &copy; 2024 CoachingoHub. Wszelkie prawa zastrzeżone.
+            &copy; 2025 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
           </Typography>
         </Box>
       </Box>

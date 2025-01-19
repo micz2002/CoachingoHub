@@ -171,7 +171,7 @@ const ResetPassword = () => {
              }}
            >
              <Typography variant="body2" color="textSecondary" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
-               &copy; 2024 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
+               &copy; 2025 CoachingoHub, Jakub Fałek. Wszelkie prawa zastrzeżone.
              </Typography>
            </Box>
       </Box>
