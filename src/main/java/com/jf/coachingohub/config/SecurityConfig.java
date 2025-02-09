@@ -31,9 +31,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults()) // Włączenie CORS (konfiguracja w WebConfig)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers( "/api/login",
-                                "/api/users/**", "/api/test-sms" /*te 2 ostatnie do usuniecia*/).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/api/trainers/**")).hasRole("TRAINER")
-                        .requestMatchers(new AntPathRequestMatcher("/api/clients/**")).hasRole("CLIENT")// Endpointy publiczne
+                                "/api/users/**").permitAll() //endpointy dostepne bez potrzeby uwierzytelnienia
+                        .requestMatchers(new AntPathRequestMatcher("/api/trainers/**")).hasRole("TRAINER") //endpointy dostepne tylko dla trenera
+                        .requestMatchers(new AntPathRequestMatcher("/api/clients/**")).hasRole("CLIENT") //endpointy dostepne tylko dla klienta
                         .anyRequest().authenticated() // Pozostałe endpointy wymagają uwierzytelnienia
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

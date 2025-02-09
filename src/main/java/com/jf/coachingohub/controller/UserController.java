@@ -83,7 +83,6 @@ public class UserController {
 //        return "Authentication in context: " + SecurityContextHolder.getContext().getAuthentication();
 //    }
 
-    //TODO DOROBIC FRONTA Z RESETEM HASLA
     @PostMapping("/forgot-password")
     public ResponseEntity<String> requestPasswordReset(@RequestParam String email, @RequestParam String resetUsername) {
         try {

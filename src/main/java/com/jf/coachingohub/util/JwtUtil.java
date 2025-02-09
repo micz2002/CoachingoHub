@@ -45,16 +45,23 @@ public class JwtUtil {
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
 
-    // Utwórz token z claims
+    // Metoda do generowania tokenu JWT
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
+                // Ustawienie dodatkowych danych w tokenie representatively rolę użytkownika
                 .setClaims(claims)
+                // Ustawienie tematu tokena, reprezentującego nazwę użytkownika
                 .setSubject(subject)
+                // Ustawienie daty wygenerowania tokena
                 .setIssuedAt(new Date(System.currentTimeMillis()))
+                // Ustawienie daty wygaśnięcia tokena (obliczonej na podstawie bieżącego czasu i stałej)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                // Podpisanie tokena algorytmem HS256 z użyciem klucza tajnego
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                // Utworzenie i zwrócenie tokena w formacie string
                 .compact();
     }
+
 
     // Sprawdź, czy token wygasł
     private boolean isTokenExpired(String token) {

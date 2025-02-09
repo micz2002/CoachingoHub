@@ -27,31 +27,32 @@ public class AuthController {
         this.userService = userService;
     }
 
-    //Na pewno stworzyc frontend do tego, jest to logowanie przez które ma być przekazywany jesli sie powiedzie token z jwt
-    @PostMapping("/login")
+    @PostMapping("/login") // Endpoint do obsługi logowania użytkownika
     public Map<String, String> login(@RequestBody Map<String, String> loginRequest) {
+        // Pobranie nazwy użytkownika i hasła z żądania
         String username = loginRequest.get("username");
         String password = loginRequest.get("password");
-
         try {
+            // Próba uwierzytelnienia użytkownika za pomocą podanych danych
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
-
-            // Użycie serwisu do sprawdzenia czy uzytkownik jest zweryfikowany (trener bo klient zawsze jest aktywny bo tworzy go trener)
+            // Sprawdzenie, czy użytkownik jest aktywny i zweryfikowany (trener, bo klient jest aktywny, wynika to z implementacji)
             User user = userService.validateAndGetActiveUser(username);
-
-            // Pobierz rolę użytkownika
+            // Pobranie roli użytkownika w systemie
             String role = "ROLE_" + user.getRole().name();
-
+            // Wygenerowanie tokenu JWT na podstawie nazwy użytkownika i jego roli
             String token = jwtUtil.generateToken(username, role);
+            // Przygotowanie odpowiedzi, która zawiera wygenerowany token JWT
             Map<String, String> response = new HashMap<>();
             response.put("token", token);
-            return response;
+            return response; // Zwrócenie tokenu jako odpowiedź
         } catch (AuthenticationException e) {
+            // Obsługa błędu uwierzytelnienia, np. w przypadku nieprawidłowego loginu lub hasła
             throw new RuntimeException("Invalid username or password");
         }
     }
+
 }
 
 
